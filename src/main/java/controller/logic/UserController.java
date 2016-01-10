@@ -53,4 +53,40 @@ public class UserController extends EMF {
         }
     }
 
+    public String userLogin(){
+
+        Map<String, Object> result = new HashMap<>();
+
+        if (em ==null){
+            em = getEm();
+        }
+        try {
+            em.getTransaction().begin();
+
+            Users u = em.createQuery("SELECT user FROM model.User user WHERE user.login=:login and user.password=:password", Users.class)
+                    .setParameter("login", users.getLogin())
+                    .setParameter("password", users.getPassword())
+                    .getSingleResult();
+
+            result.put("userId", u.getId());
+           // result.put("secretKey", u.getSecretKey());
+
+            em.getTransaction().commit();
+
+            return new Gson().toJson(result);
+        }catch (NoResultException e){
+            if (em.getTransaction() != null){
+                em.getTransaction().rollback();
+            }
+            return "Error2";
+        }catch (Exception e){
+            if (em.getTransaction() != null){
+                em.getTransaction().rollback();
+            }
+            return "Error3";
+        }finally {
+            em.close();
+        }
+    }
+
 }

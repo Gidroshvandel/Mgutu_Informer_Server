@@ -31,6 +31,10 @@ public class Users {
         this.password = password;
         this.student = student;
     }
+    public Users(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
