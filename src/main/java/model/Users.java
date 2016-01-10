@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Users")
@@ -8,6 +9,9 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "secretKey", nullable = false, length = 36)
+    private String secretKey;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -30,10 +34,12 @@ public class Users {
         this.login = login;
         this.password = password;
         this.student = student;
+        this.secretKey = UUID.randomUUID().toString();
     }
     public Users(String login, String password) {
         this.login = login;
         this.password = password;
+        this.secretKey = UUID.randomUUID().toString();
     }
 
     public Long getId() {
@@ -42,6 +48,14 @@ public class Users {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 
     public String getName() {

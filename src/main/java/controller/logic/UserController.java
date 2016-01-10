@@ -3,6 +3,7 @@ package controller.logic;
 import com.google.gson.Gson;
 import model.Users;
 import utils.EMF;
+import utils.HashWithSalt;
 
 import javax.persistence.NoResultException;
 import java.security.NoSuchAlgorithmException;
@@ -13,11 +14,15 @@ import java.util.Map;
 public class UserController extends EMF {
 
     private Users users = null;
-//    private HashWithSalt hash = null;
+    private HashWithSalt hash = null;
 
     public UserController(Users users) throws InvalidKeySpecException, NoSuchAlgorithmException {
         this.users = users;
-//        this.hash = new HashWithSalt(users.getPassword(), users.getName());
+        this.hash = new HashWithSalt(users.getPassword(), users.getName());
+    }
+
+    public void setHashPassword(){
+        users.setPassword(hash.getHash());
     }
 
     public String userRegistration(){
@@ -31,12 +36,13 @@ public class UserController extends EMF {
             em.getTransaction().begin();
 
             try {
-                em.createQuery("SELECT users FROM model.Users users WHERE users.name=:name")
-                        .setParameter("name", users.getName())
+                em.createQuery("SELECT users FROM model.Users users WHERE users.login=:login")
+                        .setParameter("login", users.getLogin())
                         .getSingleResult();
             }catch (NoResultException e){
                 em.persist(users);
                 result.put("userId", users.getId());
+                result.put("secretKey", users.getSecretKey());
             }
 
             em.getTransaction().commit();
@@ -63,13 +69,13 @@ public class UserController extends EMF {
         try {
             em.getTransaction().begin();
 
-            Users u = em.createQuery("SELECT user FROM model.User user WHERE user.login=:login and user.password=:password", Users.class)
+            Users u = em.createQuery("SELECT user FROM model.Users users WHERE users.login=:login and users.password=:password", Users.class)
                     .setParameter("login", users.getLogin())
                     .setParameter("password", users.getPassword())
                     .getSingleResult();
 
             result.put("userId", u.getId());
-           // result.put("secretKey", u.getSecretKey());
+            result.put("secretKey", u.getSecretKey());
 
             em.getTransaction().commit();
 
