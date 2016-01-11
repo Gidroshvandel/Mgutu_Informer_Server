@@ -18,7 +18,7 @@ public class UserController extends EMF {
 
     public UserController(Users users) throws InvalidKeySpecException, NoSuchAlgorithmException {
         this.users = users;
-        this.hash = new HashWithSalt(users.getPassword(), users.getName());
+        this.hash = new HashWithSalt(users.getPassword(), users.getLogin());
     }
 
     public void setHashPassword(){
@@ -69,7 +69,9 @@ public class UserController extends EMF {
         try {
             em.getTransaction().begin();
 
-            Users u = em.createQuery("SELECT user FROM model.Users users WHERE users.login=:login and users.password=:password", Users.class)
+
+
+            Users u = em.createQuery("SELECT u FROM model.Users u WHERE u.login=:login and u.password=:password", Users.class)
                     .setParameter("login", users.getLogin())
                     .setParameter("password", users.getPassword())
                     .getSingleResult();

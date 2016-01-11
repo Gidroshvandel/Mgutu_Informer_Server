@@ -36,6 +36,10 @@ public class Users {
         this.student = student;
         this.secretKey = UUID.randomUUID().toString();
     }
+
+    public Users() {
+    }
+
     public Users(String login, String password) {
         this.login = login;
         this.password = password;
