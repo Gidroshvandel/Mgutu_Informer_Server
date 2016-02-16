@@ -1,13 +1,21 @@
 package model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
+//@SequenceGenerator(name = "user_", sequenceName = "user_")
 @Table(name = "Users")
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
+//    @GeneratedValue(generator = "user_")
     private Long id;
 
     @Column(name = "secretKey", nullable = false, length = 36)
@@ -16,8 +24,9 @@ public class Users {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "groups", nullable = false)
-    private String groups;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "groupsId", nullable = false)
+    private Groups groups;
 
     @Column(name = "login", nullable = false)
     private String login;
@@ -28,7 +37,7 @@ public class Users {
     @Column(name = "student", nullable = true)
     private Boolean student;
 
-    public Users(String name, String groups, String login, String password, Boolean student) {
+    public Users(String name, Groups groups, String login, String password, Boolean student) {
         this.name = name;
         this.groups = groups;
         this.login = login;
@@ -44,6 +53,14 @@ public class Users {
         this.login = login;
         this.password = password;
         this.secretKey = UUID.randomUUID().toString();
+    }
+
+    public Groups getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Groups groups) {
+        this.groups = groups;
     }
 
     public Long getId() {
@@ -68,14 +85,6 @@ public class Users {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getGroups() {
-        return groups;
-    }
-
-    public void setGroups(String groups) {
-        this.groups = groups;
     }
 
     public String getLogin() {

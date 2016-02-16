@@ -2,6 +2,7 @@ package controller.logic;
 
 import com.google.gson.Gson;
 import model.Users;
+import org.hibernate.Session;
 import utils.EMF;
 import utils.HashWithSalt;
 
@@ -40,9 +41,10 @@ public class UserController extends EMF {
                         .setParameter("login", users.getLogin())
                         .getSingleResult();
             }catch (NoResultException e){
-                em.persist(users);
                 result.put("userId", users.getId());
                 result.put("secretKey", users.getSecretKey());
+                em.persist(users);
+//                em.flush();
             }
 
             em.getTransaction().commit();
