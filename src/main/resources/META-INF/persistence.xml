@@ -6,7 +6,9 @@
     <persistence-unit name="mgutuinformer_db" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>model.Registration</class>
+        <class>model.Users</class>
+        <class>model.Groups</class>
+        <class>model.Schedule</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>

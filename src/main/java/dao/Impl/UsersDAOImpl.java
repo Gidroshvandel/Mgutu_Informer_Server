@@ -1,6 +1,7 @@
-package controller.logic;
+package dao.Impl;
 
 import com.google.gson.Gson;
+import dao.UsersDAO;
 import model.Users;
 import utils.EMF;
 import utils.HashWithSalt;
@@ -8,30 +9,41 @@ import utils.HashWithSalt;
 import javax.persistence.NoResultException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class UserController extends EMF {
+public class UsersDAOImpl extends EMF implements UsersDAO  {
 
-    private Users users = null;
-    private HashWithSalt hash = null;
 
-    public UserController(Users users) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        this.users = users;
-        this.hash = new HashWithSalt(users.getPassword(), users.getLogin());
+    public Users setHashPassword(Users users) {
+        HashWithSalt hash = null;
+        try {
+            hash = new HashWithSalt(users.getPassword(), users.getLogin());
+        } catch (InvalidKeySpecException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
+        try {
+            users.setPassword(hash.getHash());
+        }
+        catch (NullPointerException e){
+
+        }
+        return users;
     }
 
-    public void setHashPassword(){
-        users.setPassword(hash.getHash());
-    }
+    @Override
+    public String addUser(Users users) throws SQLException {
 
-    public String userRegistration(){
+        setHashPassword(users);
 
         Map<String, Object> result = new HashMap<>();
 
-        if (em == null){
             em = getEm();
-        }
+
         try {
             em.getTransaction().begin();
 
@@ -59,24 +71,24 @@ public class UserController extends EMF {
         }
     }
 
-    public String userLogin(){
+    @Override
+    public String loginUsers(Users users) {
+
+        setHashPassword(users);
 
         Map<String, Object> result = new HashMap<>();
 
-        if (em ==null){
             em = getEm();
-        }
+
         try {
             em.getTransaction().begin();
-
-
 
             Users u = em.createQuery("SELECT u FROM model.Users u WHERE u.login=:login and u.password=:password", Users.class)
                     .setParameter("login", users.getLogin())
                     .setParameter("password", users.getPassword())
                     .getSingleResult();
 
-            result.put("userId", u.getUsersId());
+            result.put("usersId", u.getUsersId());
             result.put("secretKey", u.getSecretKey());
 
             em.getTransaction().commit();
@@ -97,4 +109,23 @@ public class UserController extends EMF {
         }
     }
 
+    @Override
+    public void updateUser(Users users) throws SQLException {
+
+    }
+
+    @Override
+    public Users getUserById(Long id) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public List getAllUsers() throws SQLException {
+        return null;
+    }
+
+    @Override
+    public void deleteUser(Users users) throws SQLException {
+
+    }
 }

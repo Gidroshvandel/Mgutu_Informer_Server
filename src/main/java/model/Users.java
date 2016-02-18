@@ -16,7 +16,7 @@ public class Users {
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
 //    @GeneratedValue(generator = "user_")
-    private Long id;
+    private Long usersId;
 
     @Column(name = "secretKey", nullable = false, length = 36)
     private String secretKey;
@@ -24,7 +24,7 @@ public class Users {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "groupsId", nullable = false)
     private Groups groups;
 
@@ -63,12 +63,12 @@ public class Users {
         this.groups = groups;
     }
 
-    public Long getId() {
-        return id;
+    public Long getUsersId() {
+        return usersId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.usersId = id;
     }
 
     public String getSecretKey() {

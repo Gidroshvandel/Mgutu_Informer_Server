@@ -7,26 +7,14 @@
 <body>
 
 <h1 align="center">Hi people</h1>
-<a href="/advice_form">Add somthing</a>
-
 <table border="2">
+        #foreach($groupsName in $groupsNameArray)
+        <tr>
+            <td>$groupsName</td>
+        </tr>
+        #end
     <tr>
-        <td></td>
-        <td>Понедельник</td>
-        <td>Thusday</td>
-        <td>Whensday</td>
-        <td>Chetverg</td>
-        <td>Friday</td>
-        <td>Suthurday</td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>Новая группа</td>
     </tr>
 </table>
 </body>

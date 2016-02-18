@@ -13,8 +13,9 @@ public class Schedule {
     @GenericGenerator(name="increment", strategy = "increment")
     private Long scheduleId;
 
-    //    @Column(name = "groupsId")
-//    private int groupsId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "groupsId", nullable = false)
+    private Groups groups;
 
     //    int numberAudience;
 //    @Column(name = "teacherId")

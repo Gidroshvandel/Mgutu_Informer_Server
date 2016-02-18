@@ -9,22 +9,23 @@ import java.util.Set;
 
 
 @Entity
-@SequenceGenerator(name = "user_seq", sequenceName = "user_seq")
+//@SequenceGenerator(name = "user_seq", sequenceName = "user_seq")
 @Table(name = "Groups",uniqueConstraints = @UniqueConstraint(columnNames = {"groupsName"}))
 public class Groups {
 
 
     @Id
-//    @GeneratedValue(generator="increment")
-//    @GenericGenerator(name="increment", strategy = "increment")
-    @GeneratedValue(generator = "user_seq")
+//    @GeneratedValue(generator = "user_seq")
+    @GeneratedValue(generator="increment")
+    @GenericGenerator(name="increment", strategy = "increment")
     private Long groupsId;
 
 
     @Column(name = "groupsName", nullable = false)
     private String groupsName;
 
-    @OneToMany(mappedBy = "groups")
+
+    @OneToMany(mappedBy = "groups",orphanRemoval=true, cascade = {CascadeType.ALL})
     private Set<Users> users;
     public Groups() {
     }
