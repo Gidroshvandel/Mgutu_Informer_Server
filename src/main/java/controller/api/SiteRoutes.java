@@ -42,49 +42,33 @@ public class SiteRoutes extends BaseController{
 //            return new ModelAndView(model, "/public/templates/last_advice.vtl");
             return new ModelAndView(new HashMap(), "/public/templates/form.vtl");
         }, new VelocityTemplateEngine());
+
+
         get("/index",(request, response) -> {
             HashMap<String, Object> model = new HashMap<>();
 
             //// TODO: 17.02.2016 обёртка
-            if (em ==null){
-                em = getEm();
-            }
-            CriteriaBuilder builder = em.getCriteriaBuilder();
-            CriteriaQuery<Groups> criteria = builder.createQuery(Groups.class);
-            Root<Groups> u = criteria.from(Groups.class);
-            TypedQuery<Groups> query = em.createQuery(
-                    criteria.select(u.get("groupsName")).where(u.get("groupsName").isNotNull()));
-            List<Groups> advice = query.getResultList();
             model.put("groupsName", new String());
-            model.put("groupsNameArray", advice);
+            model.put("groupsNameArray", Factory.getInstance().getGroupsDAO().getAllGroups());
 
 
             return new ModelAndView(model,"/public/index.html");
         }, new VelocityTemplateEngine());
-        post("/users/registration",(request, response) -> {
-            //// TODO: 17.02.2016 сделать обёртку и обработку исключений
-            Groups groups = new Groups();
-            if (em ==null){
-                em = getEm();
-            }
-            try {
-                CriteriaBuilder builder = em.getCriteriaBuilder();
-                CriteriaQuery<Groups> criteria = builder.createQuery(Groups.class);
-                Root<Groups> u = criteria.from(Groups.class);
-                TypedQuery<Groups> query = em.createQuery(
-                        criteria.select(u).where(builder.equal(u.get("groupsName"), request.queryParams("groupsName"))));
-                groups = query.getSingleResult();
-        } catch(NoResultException noresult) {
-            // if there is no result
-        } catch(NonUniqueResultException notUnique) {
-            // if more than one result
-        }
-            ////
-            Users registration = new Users(request.queryParams("name"),groups,request.queryParams("login"),request.queryParams("password"), Boolean.parseBoolean(request.queryParams("student")));
+
+        post("/addGroups", (request, response) -> {
+            Groups addGroups = new Groups(request.queryParams("groupsName"));
+            return Factory.getInstance().getGroupsDAO().addGroup(addGroups);
+        });
+
+        post("/deleteGroups", (request, response) -> {
+            Groups deleteGroups = new Groups(request.queryParams("groupsName"));
+            return Factory.getInstance().getGroupsDAO().deleteGroup(deleteGroups);
+        });
+
+        post("/users/registration", (request, response) -> {
+            Groups groups = Factory.getInstance().getGroupsDAO().getGroupByName(request.queryParams("groupsName"));
+            Users registration = new Users(request.queryParams("name"), groups, request.queryParams("login"), request.queryParams("password"), Boolean.parseBoolean(request.queryParams("student")));
             return Factory.getInstance().getUsersDAO().addUser(registration);
-//            UserController userController = new UserController(registration);
-//            userController.setHashPassword();
-//            return userController.userRegistration();
         });
 
 

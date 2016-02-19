@@ -52,7 +52,7 @@ public class UsersDAOImpl extends EMF implements UsersDAO  {
                         .setParameter("login", users.getLogin())
                         .getSingleResult();
             }catch (NoResultException e){
-                result.put("userId", users.getUsersId());
+                result.put("usersId", users.getUsersId());
                 result.put("secretKey", users.getSecretKey());
                 em.persist(users);
             }
@@ -66,8 +66,6 @@ public class UsersDAOImpl extends EMF implements UsersDAO  {
                 em.getTransaction().rollback();
             }
             return "Error1"; //Ошибка записи пользователя
-        } finally {
-            em.close();
         }
     }
 
@@ -104,8 +102,6 @@ public class UsersDAOImpl extends EMF implements UsersDAO  {
                 em.getTransaction().rollback();
             }
             return "Error3";
-        }finally {
-            em.close();
         }
     }
 

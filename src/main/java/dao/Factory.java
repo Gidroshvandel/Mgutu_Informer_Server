@@ -1,11 +1,14 @@
 package dao;
 
+import dao.Impl.GroupsDAOImpl;
+import dao.Impl.ScheduleDAOImpl;
 import dao.Impl.UsersDAOImpl;
 
 public class Factory {
     private static UsersDAO usersDAO = null;
-//    private static TestDAO testDAO = null;
+    private static ScheduleDAO scheduleDAO = null;
     private static Factory instance = null;
+    private static GroupsDAO groupsDAO = null;
 
     public static synchronized Factory getInstance(){
         if (instance == null){
@@ -21,10 +24,18 @@ public class Factory {
         return usersDAO;
     }
 
-//    public TestDAO getTestDAO(){
-//        if (studentDAO == null){
-//            studentDAO = new StudentDAOImpl();
-//        }
-//        return testDAO;
-//    }
+    public ScheduleDAO  getScheduleDAO(){
+        if (scheduleDAO == null){
+            scheduleDAO = new ScheduleDAOImpl();
+        }
+        return scheduleDAO;
+    }
+
+    public GroupsDAO  getGroupsDAO(){
+        if (groupsDAO == null){
+            groupsDAO = new GroupsDAOImpl();
+        }
+        return groupsDAO;
+    }
+
 }

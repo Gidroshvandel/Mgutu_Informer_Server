@@ -32,6 +32,13 @@ public class Schedule {
     //    int lessonNumber;
 
 
+    public Groups getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Groups groups) {
+        this.groups = groups;
+    }
 
     public Long getScheduleId() {
         return scheduleId;
