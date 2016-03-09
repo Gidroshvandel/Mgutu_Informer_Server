@@ -3,6 +3,7 @@ package model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +12,7 @@ import java.util.Set;
 @Entity
 //@SequenceGenerator(name = "user_seq", sequenceName = "user_seq")
 @Table(name = "Groups",uniqueConstraints = @UniqueConstraint(columnNames = {"groupsName"}))
-public class Groups {
+public class Groups{
 
 
     @Id
@@ -27,6 +28,10 @@ public class Groups {
 
     @OneToMany(mappedBy = "groups",orphanRemoval=true, cascade = {CascadeType.ALL})
     private Set<Users> users;
+
+    @OneToMany(mappedBy = "groups",orphanRemoval=true, cascade = {CascadeType.ALL})
+    private Set<Schedule> schedule;
+
     public Groups() {
     }
 

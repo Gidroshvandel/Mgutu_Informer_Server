@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 //@SequenceGenerator(name = "user_", sequenceName = "user_")
-@Table(name = "Users")
+@Table(name = "Users",uniqueConstraints = @UniqueConstraint(columnNames = {"login"}))
 public class Users {
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)

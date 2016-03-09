@@ -7,14 +7,25 @@
 <body>
 
 <h1 align="center">Hi people</h1>
+Форма обучения
 <table border="2">
-        #foreach($groupsName in $groupsNameArray)
+        #foreach($formOfTrainingName in $formOfTrainingNameArray)
         <tr>
-            <td>$groupsName</td>
+            <td><form action="/moveToCourse" accept-charset="UTF-8" method="POST">
+                <textarea name="formOfTrainingName">$formOfTrainingName</textarea>
+                <input type="submit" value="->">
+            </form>
+            </td>
         </tr>
         #end
     <tr>
-        <td>Новая группа</td>
+        <td>
+            <form action="/addFormOfTraining" accept-charset="UTF-8" method="POST">
+                <input type="text" name="formOfTrainingName" placeholder="Добавить форму обучения" value="">
+                <input type="submit" value="+">
+        </form>
+
+        </td>
     </tr>
 </table>
 </body>

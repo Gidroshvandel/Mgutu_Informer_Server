@@ -1,14 +1,11 @@
 package dao;
 
-import dao.Impl.GroupsDAOImpl;
-import dao.Impl.ScheduleDAOImpl;
-import dao.Impl.UsersDAOImpl;
+import dao.Impl.*;
 
 public class Factory {
     private static UsersDAO usersDAO = null;
-    private static ScheduleDAO scheduleDAO = null;
     private static Factory instance = null;
-    private static GroupsDAO groupsDAO = null;
+    private static GenericRepositoryInterface genericRepositoryInterface = null;
 
     public static synchronized Factory getInstance(){
         if (instance == null){
@@ -24,18 +21,17 @@ public class Factory {
         return usersDAO;
     }
 
-    public ScheduleDAO  getScheduleDAO(){
-        if (scheduleDAO == null){
-            scheduleDAO = new ScheduleDAOImpl();
+    public GenericRepositoryInterface  getGenericRepositoryInterface(){
+        if (genericRepositoryInterface == null){
+            genericRepositoryInterface = new GenericRepositoryImplementation<>();
         }
-        return scheduleDAO;
+        return genericRepositoryInterface;
     }
-
-    public GroupsDAO  getGroupsDAO(){
-        if (groupsDAO == null){
-            groupsDAO = new GroupsDAOImpl();
+    public GenericRepositoryInterface  getGenericRepositoryInterface(Class clazz){
+        if (genericRepositoryInterface == null){
+            genericRepositoryInterface = new GenericRepositoryImplementation<>(clazz);
         }
-        return groupsDAO;
+        return genericRepositoryInterface;
     }
 
 }
