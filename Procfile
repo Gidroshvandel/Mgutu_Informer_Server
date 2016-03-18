@@ -1,1 +1,1 @@
-web: java -cp target\dependency\* Application
+web: java -cp target\classes\* Application
