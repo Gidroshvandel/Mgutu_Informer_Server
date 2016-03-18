@@ -1,1 +1,1 @@
-web: sh target/bin/webapp $PORT
+web: java -cp target\classes;target\dependency\* Main $PORT
