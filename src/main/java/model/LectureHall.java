@@ -17,8 +17,8 @@ public class LectureHall {
     @Column(name = "lectureHallName", nullable = false)
     private String lectureHallName;
 
-    @OneToMany(mappedBy = "lectureHall",orphanRemoval=true, cascade = {CascadeType.ALL})
-    private Set<Schedule> schedules;
+//    @OneToMany(mappedBy = "lectureHall",orphanRemoval=true, cascade = {CascadeType.ALL})
+//    private Set<Schedule> schedules;
 
     public LectureHall() {
     }
@@ -39,11 +39,11 @@ public class LectureHall {
         this.lectureHallName = lectureHallName;
     }
 
-    public Set<Schedule> getSchedules() {
-        return schedules;
-    }
-
-    public void setSchedules(Set<Schedule> schedules) {
-        this.schedules = schedules;
-    }
+//    public Set<Schedule> getSchedules() {
+//        return schedules;
+//    }
+//
+//    public void setSchedules(Set<Schedule> schedules) {
+//        this.schedules = schedules;
+//    }
 }

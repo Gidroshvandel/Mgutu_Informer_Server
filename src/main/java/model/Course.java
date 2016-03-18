@@ -19,4 +19,7 @@ public class Course {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "formOfTrainingId", nullable = false)
     private FormOfTraining formOfTraining;
+
+    public Course() {
+    }
 }

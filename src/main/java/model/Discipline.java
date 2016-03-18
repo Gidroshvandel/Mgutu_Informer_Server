@@ -17,8 +17,8 @@ public class Discipline {
     @Column(name = "disciplineName", nullable = false)
     private String disciplineName;
 
-    @OneToMany(mappedBy = "discipline",orphanRemoval=true, cascade = {CascadeType.ALL})
-    private Set<Schedule> schedules;
+//    @OneToMany(mappedBy = "discipline",orphanRemoval=true, cascade = {CascadeType.ALL})
+//    private Set<Schedule> schedules;
 
     public Discipline() {
     }

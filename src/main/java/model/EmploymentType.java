@@ -17,8 +17,8 @@ public class EmploymentType {
     @Column(name = "employmentTypeName", nullable = false)
     private String employmentTypeName;
 
-    @OneToMany(mappedBy = "employmentType",orphanRemoval=true, cascade = {CascadeType.ALL})
-    private Set<Schedule> schedules;
+//    @OneToMany(mappedBy = "employmentType",orphanRemoval=true, cascade = {CascadeType.ALL})
+//    private Set<Schedule> schedules;
 
     public EmploymentType() {
     }
@@ -39,11 +39,11 @@ public class EmploymentType {
         this.employmentTypeName = employmentTypeName;
     }
 
-    public Set<Schedule> getSchedules() {
-        return schedules;
-    }
-
-    public void setSchedules(Set<Schedule> schedules) {
-        this.schedules = schedules;
-    }
+//    public Set<Schedule> getSchedules() {
+//        return schedules;
+//    }
+//
+//    public void setSchedules(Set<Schedule> schedules) {
+//        this.schedules = schedules;
+//    }
 }

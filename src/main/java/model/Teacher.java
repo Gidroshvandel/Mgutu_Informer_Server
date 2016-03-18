@@ -16,8 +16,11 @@ public class Teacher {
     @Column(name = "teacherName", nullable = false)
     private String teacherName;
 
-    @OneToMany(mappedBy = "teacher",orphanRemoval=true, cascade = {CascadeType.ALL})
-    private Set<Schedule> schedules;
+//    @OneToMany(mappedBy = "teacher",orphanRemoval=true, cascade = {CascadeType.ALL})
+//    private Set<Schedule> schedules;
+
+    public Teacher() {
+    }
 
     public Teacher(String teacherName) {
         this.teacherName = teacherName;
@@ -39,11 +42,11 @@ public class Teacher {
         this.teacherName = teacherName;
     }
 
-    public Set<Schedule> getSchedules() {
-        return schedules;
-    }
-
-    public void setSchedules(Set<Schedule> schedules) {
-        this.schedules = schedules;
-    }
+//    public Set<Schedule> getSchedules() {
+//        return schedules;
+//    }
+//
+//    public void setSchedules(Set<Schedule> schedules) {
+//        this.schedules = schedules;
+//    }
 }

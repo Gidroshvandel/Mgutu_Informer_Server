@@ -40,15 +40,15 @@ public class GenericRepositoryImplementation<T> implements GenericRepositoryInte
     }
 
     @Override
-    public List<T> getAllObjects(String columnName) {
+    public List<T> getAllObjects() {
         entityManager = EMF.getEm();
         try {
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<T> criteria = builder.createQuery(type);
             Root<T> u = criteria.from(type);
-            TypedQuery<T> query = entityManager.createQuery(
-                    criteria.select(u.get(columnName)).where(u.get(columnName).isNotNull()));
-            return query.getResultList();
+            TypedQuery<T> query = entityManager.createQuery(criteria);
+            List<T> parties = query.getResultList();
+            return parties;
         } catch (NoResultException noResult) {
             return null;
         }catch (NonUniqueResultException nonUnique) {

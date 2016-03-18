@@ -22,7 +22,7 @@ public class SiteRoutes extends BaseController{
         HashMap<String, Object> model = new HashMap<>();
 
         model.put("formOfTrainingName", new String());
-        model.put("formOfTrainingNameArray", Factory.getInstance().getGenericRepositoryInterface(FormOfTraining.class).getAllObjects(formOfTrainingColumn));
+//        model.put("formOfTrainingNameArray", Factory.getInstance().getGenericRepositoryInterface(FormOfTraining.class).getAllObjects(formOfTrainingColumn));
         return  model;
     }
 
@@ -30,7 +30,7 @@ public class SiteRoutes extends BaseController{
         FormOfTraining formOfTraining = FormOfTraining.class.cast(Factory.getInstance().getGenericRepositoryInterface(FormOfTraining.class).getObject(formOfTrainingColumn,columnValue));
 
         HashMap<String, Object> model = new HashMap<>();
-        List<FormOfTraining> formOfTrainingList = Factory.getInstance().getGenericRepositoryInterface(FormOfTraining.class).getAllObjects("formOfTrainingId");
+        List<FormOfTraining> formOfTrainingList = Factory.getInstance().getGenericRepositoryInterface(FormOfTraining.class).getAllObjects();
 
         for(FormOfTraining formOfTrainingLists : formOfTrainingList ){
 

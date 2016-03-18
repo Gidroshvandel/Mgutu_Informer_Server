@@ -20,8 +20,8 @@ public class LessonTime {
     @Column(name = "lessonTimeEnd", nullable = false)
     private String lessonTimeEnd;
 
-    @OneToMany(mappedBy = "lessonTime",orphanRemoval=true, cascade = {CascadeType.ALL})
-    private Set<Schedule> schedule;
+//    @OneToMany(mappedBy = "lessonTime",orphanRemoval=true, cascade = {CascadeType.ALL})
+//    private Set<Schedule> schedule;
 
     public LessonTime() {
     }
@@ -50,11 +50,11 @@ public class LessonTime {
         this.lessonTimeEnd = lessonTimeEnd;
     }
 
-    public Set<Schedule> getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Set<Schedule> schedule) {
-        this.schedule = schedule;
-    }
+//    public Set<Schedule> getSchedule() {
+//        return schedule;
+//    }
+//
+//    public void setSchedule(Set<Schedule> schedule) {
+//        this.schedule = schedule;
+//    }
 }

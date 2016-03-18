@@ -9,7 +9,7 @@ public class Application {
 
         staticFileLocation("/public");
         port(5555);
-//        new MobileRoutes();
+        new MobileRoutes();
         new SiteRoutes();
     }
 }

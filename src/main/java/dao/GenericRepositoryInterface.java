@@ -7,5 +7,5 @@ public interface GenericRepositoryInterface<T> {
     Boolean removeObject(T emp);
     Boolean editObject(T emp);
     T getObject(String columnName, String columnValue);
-    List<T> getAllObjects(String columnName);
+    List<T> getAllObjects();
 }

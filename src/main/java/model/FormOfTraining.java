@@ -17,8 +17,8 @@ public class FormOfTraining {
     @Column(name = "formOfTrainingName", nullable = false)
     private String formOfTrainingName;
 
-    @OneToMany(mappedBy = "formOfTraining",orphanRemoval=true, cascade = {CascadeType.ALL})
-    private Set<Course> course;
+//    @OneToMany(mappedBy = "formOfTraining",orphanRemoval=true, cascade = {CascadeType.ALL})
+//    private Set<Course> course;
 
     public FormOfTraining() {
     }
@@ -43,11 +43,11 @@ public class FormOfTraining {
         this.formOfTrainingName = formOfTrainingName;
     }
 
-    public Set<Course> getCourse() {
-        return course;
-    }
-
-    public void setCourse(Set<Course> course) {
-        this.course = course;
-    }
+//    public Set<Course> getCourse() {
+//        return course;
+//    }
+//
+//    public void setCourse(Set<Course> course) {
+//        this.course = course;
+//    }
 }

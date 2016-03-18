@@ -26,11 +26,11 @@ public class Groups{
     private String groupsName;
 
 
-    @OneToMany(mappedBy = "groups",orphanRemoval=true, cascade = {CascadeType.ALL})
-    private Set<Users> users;
-
-    @OneToMany(mappedBy = "groups",orphanRemoval=true, cascade = {CascadeType.ALL})
-    private Set<Schedule> schedule;
+//    @OneToMany(mappedBy = "groups",orphanRemoval=true, cascade = {CascadeType.ALL})
+//    private Set<Users> users;
+//
+//    @OneToMany(mappedBy = "groups",orphanRemoval=true, cascade = {CascadeType.ALL})
+//    private Set<Schedule> schedule;
 
     public Groups() {
     }
@@ -56,11 +56,11 @@ public class Groups{
         this.groupsName = groupsName;
     }
 
-    public Set<Users> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<Users> users) {
-        this.users = users;
-    }
+//    public Set<Users> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(Set<Users> users) {
+//        this.users = users;
+//    }
 }

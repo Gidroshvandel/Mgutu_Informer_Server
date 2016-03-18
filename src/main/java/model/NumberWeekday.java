@@ -17,6 +17,9 @@ public class NumberWeekday {
     @Column(name = "numberWeekdayName", nullable = false)
     private String numberWeekdayName;
 
-    @OneToMany(mappedBy = "formOfTraining",orphanRemoval=true, cascade = {CascadeType.ALL})
-    private Set<Schedule> schedule;
+//    @OneToMany(mappedBy = "formOfTraining",orphanRemoval=true, cascade = {CascadeType.ALL})
+//    private Set<Schedule> schedule;
+
+    public NumberWeekday() {
+    }
 }
