@@ -1,1 +1,1 @@
-web: java -cp target\classes Main $PORT
+web: java -cp target\classes Application $PORT
