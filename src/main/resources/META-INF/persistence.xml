@@ -12,9 +12,9 @@
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/mgutuinformer_db"/>
-            <property name="javax.persistence.jdbc.registration" value="postgres"/>
-            <property name="javax.persistence.jdbc.password" value="436895"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://ec2-46-137-125-22.eu-west-1.compute.amazonaws.com:5432/d4nm03ep7uplmc"/>
+            <property name="javax.persistence.jdbc.registration" value="ujnxrntgurvxqu"/>
+            <property name="javax.persistence.jdbc.password" value="cvT-cnH2PY_UkBkmTmixXvqzfu"/>
 
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL9Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
