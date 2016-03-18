@@ -2,15 +2,9 @@ package controller.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sun.corba.se.spi.presentation.rmi.PresentationManager;
 import controller.BaseController;
 import dao.Factory;
-import gson.serialize.ScheduleSerializer;
 import model.Schedule;
-import spark.ModelAndView;
-import utils.template.VelocityTemplateEngine;
-
-import java.util.HashMap;
 import java.util.List;
 
 import static spark.Spark.get;
