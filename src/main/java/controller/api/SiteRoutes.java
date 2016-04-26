@@ -8,42 +8,48 @@ import spark.ModelAndView;
 import utils.template.VelocityTemplateEngine;
 
 import javax.persistence.Convert;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
-
 public class SiteRoutes extends BaseController{
     private String groupsColumn = "groupsName";
     private String formOfTrainingColumn = "formOfTrainingName";
 
-    private HashMap formOfTrainingName(){
+    private HashMap getGroupsName(){
         HashMap<String, Object> model = new HashMap<>();
 
+        List<Groups> listGroups = Factory.getInstance().getGenericRepositoryInterface(Groups.class).getAllObjects();
+        List<String> groupsNameList = listGroups.stream().map(groupsLists -> groupsLists.getGroupsName()).collect(Collectors.toList());
+
         model.put("formOfTrainingName", new String());
-//        model.put("formOfTrainingNameArray", Factory.getInstance().getGenericRepositoryInterface(FormOfTraining.class).getAllObjects(formOfTrainingColumn));
+        model.put("formOfTrainingNameArray", groupsNameList);
         return  model;
     }
 
-    private HashMap formCourseName(String columnValue){
-        FormOfTraining formOfTraining = FormOfTraining.class.cast(Factory.getInstance().getGenericRepositoryInterface(FormOfTraining.class).getObject(formOfTrainingColumn,columnValue));
+    private HashMap getFormParametrName(String modelColumnName, String groupsName){
+        Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject(modelColumnName, groupsName));
+
+//        model.cast(Factory.getInstance().getGenericRepositoryInterface(model).getObject(modelColumnName,columnValue));
 
         HashMap<String, Object> model = new HashMap<>();
-        List<FormOfTraining> formOfTrainingList = Factory.getInstance().getGenericRepositoryInterface(FormOfTraining.class).getAllObjects();
+        List<Groups> groupsList = Factory.getInstance().getGenericRepositoryInterface(Groups.class).getAllObjects();
+//        List<T> modelList = Factory.getInstance().getGenericRepositoryInterface(model).getAllObjects();
+        for(Groups groupsLists : groupsList ){
 
-        for(FormOfTraining formOfTrainingLists : formOfTrainingList ){
-
-            if(formOfTrainingLists.getFormOfTrainingId().equals(formOfTraining.getFormOfTrainingId())){
+            if(groupsLists.getGroupsId().equals(groups.getGroupsId())){
             }
             else {
-                formOfTrainingList.remove(formOfTrainingLists.getFormOfTrainingId());
+                groupsList.remove(groupsLists.getGroupsId());
             }
 
         }
 
         model.put("formOfTrainingName", new String());
-        model.put("formOfTrainingNameArray", formOfTrainingList);
+        model.put("formOfTrainingNameArray", groupsList);
         return  model;
     }
 
@@ -57,7 +63,7 @@ public class SiteRoutes extends BaseController{
 
         get("/moveToCourse", (request, response) -> {
             System.out.println("Выполняется /moveToCourse");
-            formCourseName(request.queryParams("formOfTrainingName"));
+          //  formCourseName(request.queryParams("formOfTrainingName"));
             HashMap<String, Object> model = new HashMap<>();
             return new ModelAndView(model, "/public/index.html");
         }, new VelocityTemplateEngine());
@@ -76,35 +82,38 @@ public class SiteRoutes extends BaseController{
             return new ModelAndView(new HashMap(), "/public/templates/form.vtl");
         }, new VelocityTemplateEngine());
 
-        post("/addFormOfTraining",(request, response) -> {
-            FormOfTraining formOfTraining = new FormOfTraining(request.queryParams(formOfTrainingColumn));
-            Factory.getInstance().getGenericRepositoryInterface().addObject(formOfTraining) ;
-        return new ModelAndView(formOfTrainingName(), "/public/index.html");
-        }, new VelocityTemplateEngine());
-
-        post("/deleteFormOfTraining",(request, response) -> {
-           FormOfTraining formOfTraining = FormOfTraining.class.cast(Factory.getInstance().getGenericRepositoryInterface(FormOfTraining.class).getObject(formOfTrainingColumn ,request.queryParams(formOfTrainingColumn)));
-            Factory.getInstance().getGenericRepositoryInterface().removeObject(formOfTraining);
-            return new ModelAndView(formOfTrainingName(), "/public/index.html");
-        }, new VelocityTemplateEngine());
+//        post("/addFormOfTraining",(request, response) -> {
+//            FormOfTraining formOfTraining = new FormOfTraining(request.queryParams(formOfTrainingColumn));
+//            Factory.getInstance().getGenericRepositoryInterface().addObject(formOfTraining);
+//        return new ModelAndView(formOfTrainingName(), "/public/index.html");
+//        }, new VelocityTemplateEngine());
+//
+//        post("/deleteFormOfTraining",(request, response) -> {
+//           FormOfTraining formOfTraining = FormOfTraining.class.cast(Factory.getInstance().getGenericRepositoryInterface(FormOfTraining.class).getObject(formOfTrainingColumn ,request.queryParams(formOfTrainingColumn)));
+//            Factory.getInstance().getGenericRepositoryInterface().removeObject(formOfTraining);
+//            return new ModelAndView(formOfTrainingName(), "/public/index.html");
+//        }, new VelocityTemplateEngine());
 
         get("/",(request, response) -> {
-            return new ModelAndView(formOfTrainingName(),"/public/index.html");
+            return new ModelAndView(getGroupsName(),"/public/index.html");
         }, new VelocityTemplateEngine());
 
         get("/index",(request, response) -> {
-            return new ModelAndView(formOfTrainingName(),"/public/index.html");
+            return new ModelAndView(getGroupsName(),"/public/index.html");
         }, new VelocityTemplateEngine());
 
         post("/addGroups", (request, response) -> {
             Groups addGroups = new Groups(request.queryParams(groupsColumn));
+            response.redirect("/index");
             return Factory.getInstance().getGenericRepositoryInterface().addObject(addGroups);
+
         });
 
         post("/find", (request, response) -> Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName", request.queryParams("groupsName")));
 
         post("/deleteGroups", (request, response) -> {
             Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject(groupsColumn ,request.queryParams("groupsName")));
+            response.redirect("/index");
            return Factory.getInstance().getGenericRepositoryInterface().removeObject(groups);
         });
 

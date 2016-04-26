@@ -46,6 +46,7 @@ public class GenericRepositoryImplementation<T> implements GenericRepositoryInte
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<T> criteria = builder.createQuery(type);
             Root<T> u = criteria.from(type);
+            criteria.select(u);
             TypedQuery<T> query = entityManager.createQuery(criteria);
             List<T> parties = query.getResultList();
             return parties;
