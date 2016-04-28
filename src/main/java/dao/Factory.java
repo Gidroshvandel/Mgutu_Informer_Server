@@ -22,15 +22,11 @@ public class Factory {
     }
 
     public GenericRepositoryInterface  getGenericRepositoryInterface(){
-        if (genericRepositoryInterface == null){
             genericRepositoryInterface = new GenericRepositoryImplementation<>();
-        }
         return genericRepositoryInterface;
     }
     public GenericRepositoryInterface  getGenericRepositoryInterface(Class clazz){
-        if (genericRepositoryInterface == null){
             genericRepositoryInterface = new GenericRepositoryImplementation<>(clazz);
-        }
         return genericRepositoryInterface;
     }
 

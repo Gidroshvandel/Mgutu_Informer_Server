@@ -5,12 +5,90 @@
     <title>Title</title>
 </head>
 <body>
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="/dropdown.js"></script>   
+<!--
+<script type="text/javascript">
+function addRow(id){
+var tbody = document.getElementById(id).getElementsByTagName("TBODY")[0];
+var row = document.createElement("TR")
+var td1 = document.createElement("TD")
+td1.appendChild(document.createTextNode("column 1"))
+var td2 = document.createElement("TD")
+td2.appendChild (document.createTextNode("column 2"))
+row.appendChild(td1);
+row.appendChild(td2);
+tbody.appendChild(row);
+}
+</script>
 
+<p>Скрипт добавляет строку в таблицу, после нажатия на ссылку.</p>
+-->
+
+<!--
+<a href="javascript://" onclick="addRow('myTable');return false;">Добавить строку</a>
+<table id="myTable" cellspacing="0" border="1">
+  <tbody>
+    <tr>
+      <td>row1_column1</td><td>row1_column1</td>
+    </tr>
+  </tbody>
+</table>
+-->
+
+<table id="myTable" border="2">
+    <tbody>
+                #foreach($groupsName in $groupsNameArray)
+                <tr>
+                    <td>$groupsName</td>
+                </tr>
+                #end
+        <tr>
+            <td>
+                <form action="/addGroups" accept-charset="UTF-8" method="POST">
+                    <input type="text" name="groupsName" placeholder="Добавить группу" value="">
+                    <input type="submit" value="+">
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
+<script src = script.js></script>
+<!--
+<script>
+function post(name, adress)
+{
+var xhr = new XMLHttpRequest();
+console.log(name);
+var body = 'name=' + encodeURIComponent(name);
+
+xhr.open("POST", adress, true)
+xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+//xhr.onreadystatechange = ...;
+console.log(body);
+xhr.send(body);
+};
+</script>
+-->
+<script>
+function post(msg,url) {
+//    var url = el.getAttribute('href');
+//    var msg = prompt('Сообщение');
     
+   var form = document.createElement("form");
+    form.setAttribute("method", 'post');
+    form.setAttribute("action", url);
 
+    var input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("name", 'name');
+    input.setAttribute("value", msg);
 
+    form.appendChild(input);
+    form.submit();
+}
+</script>
+<!--<script src="http://code.jquery.com/jquery-latest.min.js"></script>-->
 <!--<h1 align="center">Hi people</h1>-->
 <!--<span id=1>Форма обучения</span>-->
 
@@ -37,30 +115,3 @@ function newPage()
 <input type="button" name="button" value="Подтвердить данные" onClick="newPage()">
 </form>
 -->
-<table border="2">
-
-
-                #foreach($formOfTrainingName in $formOfTrainingNameArray)
-
-                <tr>
-                    <td><form action="/deleteGroups" accept-charset="UTF-8" method="POST">
-                        <textarea name="groupsName">$formOfTrainingName</textarea>
-                        <input type="submit" value="-">
-                    </form>
-                    </td>
-                </tr>
-                #end
-
-    <tr>
-        <td>
-            <form action="/addGroups" accept-charset="UTF-8" method="POST">
-                <input type="text" name="groupsName" placeholder="Добавить группу" value="">
-                <input type="submit" value="+">
-        </form>
-
-        </td>
-    </tr>
-    
-</table>
-</body>
-</html>
