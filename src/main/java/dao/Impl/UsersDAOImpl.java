@@ -40,7 +40,7 @@ public class UsersDAOImpl extends EMF implements UsersDAO  {
 
         setHashPassword(users);
 
-        Map<String, Object> result = new HashMap<>();
+//        Map<String, Object> result = new HashMap<>();
 
             em = getEm();
 
@@ -52,15 +52,17 @@ public class UsersDAOImpl extends EMF implements UsersDAO  {
                         .setParameter("login", users.getLogin())
                         .getSingleResult();
             }catch (NoResultException e){
-                result.put("usersId", users.getUsersId());
-                result.put("secretKey", users.getSecretKey());
+//                result.put("usersId", users.getUsersId());
+//                result.put("secretKey", users.getSecretKey());
                 em.persist(users);
             }
 
             em.getTransaction().commit();
 
-            return new Gson().toJson(result);
-
+//            return new Gson().toJson(result);
+            users.setLogin("");
+            users.setPassword("");
+            return new Gson().toJson(users);
         } catch (Exception e) {
             if (em.getTransaction() != null){
                 em.getTransaction().rollback();
@@ -74,7 +76,7 @@ public class UsersDAOImpl extends EMF implements UsersDAO  {
 
         setHashPassword(users);
 
-        Map<String, Object> result = new HashMap<>();
+//        Map<String, Object> result = new HashMap<>();
 
             em = getEm();
 
@@ -86,12 +88,15 @@ public class UsersDAOImpl extends EMF implements UsersDAO  {
                     .setParameter("password", users.getPassword())
                     .getSingleResult();
 
-            result.put("usersId", u.getUsersId());
-            result.put("secretKey", u.getSecretKey());
+//            result.put("usersId", u.getUsersId());
+//            result.put("secretKey", u.getSecretKey());
 
             em.getTransaction().commit();
 
-            return new Gson().toJson(result);
+//            return new Gson().toJson(result);
+            u.setLogin("");
+            u.setPassword("");
+            return new Gson().toJson(u);
         }catch (NoResultException e){
             if (em.getTransaction() != null){
                 em.getTransaction().rollback();

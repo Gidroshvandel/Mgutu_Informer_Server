@@ -24,7 +24,7 @@ public class Users {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "groupsId", nullable = false)
     private Groups groups;
 
