@@ -5,6 +5,90 @@
     <title>Title</title>
 </head>
 <body>
+<table id="myTable" border="2">
+    <tbody>
+                #foreach($groupsName in $groupsNameArray)
+                <tr>
+                    <td>$groupsName</td>
+                </tr>
+                #end
+        <tr>
+            <td>
+                <form action="/api/addGroups" accept-charset="UTF-8" method="POST">
+                    <input type="text" name="groupsName" placeholder="Добавить группу" value="">
+                    <input type="submit" value="+">
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
+<script src = "script.js"></script>
+<script src = "cookie.js"></script>
+<script>
+function post(msg,url) {
+//    var url = el.getAttribute('href');
+//    var msg = prompt('Сообщение');
+    
+   var form = document.createElement("form");
+    form.setAttribute("method", 'get');
+    form.setAttribute("action", url);
+    setCookie("name",msg);
+//    var input = document.createElement("input");
+//    input.setAttribute("type", "hidden");
+//    input.setAttribute("name", 'name');
+//    input.setAttribute("value", msg);
+
+//    form.appendChild(input);
+    form.submit();
+};
+</script>
+
+<!--
+<script>
+function post(name, adress)
+{
+var xhr = new XMLHttpRequest();
+console.log(name);
+var body = 'name=' + encodeURIComponent(name);
+
+xhr.open("POST", adress, true)
+xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+//xhr.onreadystatechange = ...;
+console.log(body);
+xhr.send(body);
+};
+</script>
+-->
+
+<!--<script src="http://code.jquery.com/jquery-latest.min.js"></script>-->
+<!--<h1 align="center">Hi people</h1>-->
+<!--<span id=1>Форма обучения</span>-->
+
+    
+    
+<!--
+<script language="JavaScript">
+
+function newPage()
+{
+ value1=""+document.form1.userF.value;
+ value2=""+document.form1.userI.value;
+ value3=""+document.form1.userO.value;
+ self.location="file1.html?="+value1+"="+value2+"="+value3;
+}
+//
+</script>
+</head>
+<body>
+<form name="form1">
+Фамилия&nbsp;<input type="text" name="userF">
+Имя&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="userI"><br>
+Отчество&nbsp;<input type="text" name="userO"><br>
+<input type="button" name="button" value="Подтвердить данные" onClick="newPage()">
+</form>
+-->
 <!--
 <script type="text/javascript">
 function addRow(id){
@@ -32,86 +116,4 @@ tbody.appendChild(row);
     </tr>
   </tbody>
 </table>
--->
-
-<table id="myTable" border="2">
-    <tbody>
-                #foreach($groupsName in $groupsNameArray)
-                <tr>
-                    <td>$groupsName</td>
-                </tr>
-                #end
-        <tr>
-            <td>
-                <form action="/addGroups" accept-charset="UTF-8" method="POST">
-                    <input type="text" name="groupsName" placeholder="Добавить группу" value="">
-                    <input type="submit" value="+">
-                </form>
-            </td>
-        </tr>
-    </tbody>
-</table>
-</body>
-</html>
-<script src = script.js></script>
-<!--
-<script>
-function post(name, adress)
-{
-var xhr = new XMLHttpRequest();
-console.log(name);
-var body = 'name=' + encodeURIComponent(name);
-
-xhr.open("POST", adress, true)
-xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-//xhr.onreadystatechange = ...;
-console.log(body);
-xhr.send(body);
-};
-</script>
--->
-<script>
-function post(msg,url) {
-//    var url = el.getAttribute('href');
-//    var msg = prompt('Сообщение');
-    
-   var form = document.createElement("form");
-    form.setAttribute("method", 'post');
-    form.setAttribute("action", url);
-
-    var input = document.createElement("input");
-    input.setAttribute("type", "hidden");
-    input.setAttribute("name", 'name');
-    input.setAttribute("value", msg);
-
-    form.appendChild(input);
-    form.submit();
-}
-</script>
-<!--<script src="http://code.jquery.com/jquery-latest.min.js"></script>-->
-<!--<h1 align="center">Hi people</h1>-->
-<!--<span id=1>Форма обучения</span>-->
-
-    
-    
-<!--
-<script language="JavaScript">
-
-function newPage()
-{
- value1=""+document.form1.userF.value;
- value2=""+document.form1.userI.value;
- value3=""+document.form1.userO.value;
- self.location="file1.html?="+value1+"="+value2+"="+value3;
-}
-//
-</script>
-</head>
-<body>
-<form name="form1">
-Фамилия&nbsp;<input type="text" name="userF">
-Имя&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="userI"><br>
-Отчество&nbsp;<input type="text" name="userO"><br>
-<input type="button" name="button" value="Подтвердить данные" onClick="newPage()">
-</form>
 -->

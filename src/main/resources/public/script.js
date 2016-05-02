@@ -5,8 +5,8 @@
     for (var index = 0; index < tbody.length-1; ++index) {
         var container = tbody[index].getElementsByTagName("td")[0];
         console.log(container);  
-        container.innerHTML = '<a href="javascript://" onclick="post('+"'"+tbody[index].getElementsByTagName("td")[0].textContent+"'"+','+"'/moveTo'"+');return false;">'+tbody[index].getElementsByTagName("td")[0].textContent+'</a>'
-        container.innerHTML += '<input onclick="post('+"'"+tbody[index].getElementsByTagName("td")[0].textContent+"','/deleteGroups'"+')" type="submit" value="-">';
+        container.innerHTML = '<a href="javascript://" onclick="post('+"'"+tbody[index].getElementsByTagName("td")[0].textContent+"','/schedule'"+');return false;">'+tbody[index].getElementsByTagName("td")[0].textContent+'</a>'
+        container.innerHTML += '<input onclick="post('+"'"+tbody[index].getElementsByTagName("td")[0].textContent+"','/api/deleteGroups'"+')" type="submit" value="-">';
     }
     console.log(container);
 //    var tabelE = document.getElementById("tabel");

@@ -26,6 +26,11 @@ public class LessonTime {
     public LessonTime() {
     }
 
+    public LessonTime(String lessonTimeStart, String lessonTimeEnd) {
+        this.lessonTimeStart = lessonTimeStart;
+        this.lessonTimeEnd = lessonTimeEnd;
+    }
+
     public Long getLessonTimeId() {
         return lessonTimeId;
     }

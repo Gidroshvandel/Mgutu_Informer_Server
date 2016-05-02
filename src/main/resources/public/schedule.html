@@ -47,53 +47,61 @@
     -moz-box-shadow: 0 0 10px 2px #1A3457; /* Firefox */
 }
     </style>
+<span id="groupName"></span> 
 </head>
 <body>
+    <form action="/api/addLessonTime" accept-charset="UTF-8" method="POST">
+                    <input type="text" name="timeStart" placeholder="Начало занятия" value="">
+                    <input type="text" name="timeEnd" placeholder="конец занятия" value="">
+                    <input type="submit" value="+">
+            </form>
     #foreach($weekDayName in $weekDayArray)    
     <div class = "dayClass">
-        <span class = "weekDayClass">$weekDayName</span>
+        <span class = "weekDayClassName">$weekDayName</span>
         #foreach($lessonTime in $lessonTimeArray)
-        <div class = "lessonTimeClass">
-           <span>$lessonTime</span>
+        <div class = "dayClass">
+           <span class = "lessonTimeClass">$lessonTime</span>
             <div class = "sheduleInformClass">
                 Аудитория
-                <input list="lectureHall">
-                <datalist id="lectureHall">
+                <input class="lectureHallClass" list="lectureHall$weekDayName$lessonTime">
+                <datalist id="lectureHall$weekDayName$lessonTime">
                 #foreach($lectureHall in $lectureHallArray)
                   <option>$lectureHall</option>
                 #end
                 </datalist><br>
                 Преподаватель
-                <input list="teacher">
-                <datalist id="teacher">
+                <input class="teacherClass" list="teacher$weekDayName$lessonTime">
+                <datalist id="teacher$weekDayName$lessonTime">
                 #foreach($teacher in $teacherArray)
                   <option>$teacher</option>
                 #end
                 </datalist ><br>
                 Предмет
-                <input list="discipline">
-                <datalist id="discipline">
+                <input class="disciplineClass" list="discipline$weekDayName$lessonTime">
+                <datalist id="discipline$weekDayName$lessonTime">
                 #foreach($discipline in $disciplineArray)
                   <option>$discipline</option>
                 #end
                 </datalist><br>
                 Тип предмета
-                <input list="employmentType">
-                <datalist id="employmentType">
+                <input class="employmentTypeClass" list="employmentType$weekDayName$lessonTime">
+                <datalist id="employmentType$weekDayName$lessonTime">
                 #foreach($employmentType in $employmentTypeArray)
                   <option>$employmentType</option>
                 #end
                 </datalist><br>
-                <script src = "/schedule.js"></script>
             </div>
-            <div> <button>+</button> </div>
+            <div> <button onclick="">+</button> </div>
         </div>
         #end
         <div> <button>+</button> </div>
     </div>
     #end
+    <div> <button onclick="getSchedule()">Сохранить</button> </div>
 </body>
 </html>
+<script src = "cookie.js"></script>
+<script src="schedule.js"></script>
 <script>
 function post(msg,url) {
     
