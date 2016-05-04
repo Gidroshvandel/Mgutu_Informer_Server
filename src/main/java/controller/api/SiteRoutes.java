@@ -3,7 +3,7 @@ package controller.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controller.BaseController;
-import controller.api.subapi.ScheduleRoutes;
+import controller.api.subapi.AdministrationRoutes;
 import dao.Factory;
 import model.*;
 import model.json.Schedule;
@@ -11,7 +11,6 @@ import spark.ModelAndView;
 import utils.Converter;
 import utils.template.VelocityTemplateEngine;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.*;
@@ -22,14 +21,16 @@ import java.util.stream.Collectors;
 import static spark.Spark.get;
 import static spark.Spark.post;
 
-public class SiteRoutes extends BaseController {
-
 
 public class SiteRoutes extends BaseController {
     private static Logger log = Logger.getLogger(SiteRoutes.class.getName());
 
     private String groupsColumn = "groupsName";
     private String formOfTrainingColumn = "formOfTrainingName";
+
+    public void initRoutes(){
+        new AdministrationRoutes();
+    }
 
     private HashMap getGroupsName() {
         HashMap<String, Object> model = new HashMap<>();
@@ -153,29 +154,6 @@ public class SiteRoutes extends BaseController {
         return model;
     }
 
-//    private HashMap getFormParametrName(String modelColumnName, String groupsName){
-//        Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject(modelColumnName, groupsName));
-//
-////        model.cast(Factory.getInstance().getGenericRepositoryInterface(model).getObject(modelColumnName,columnValue));
-//
-//        HashMap<String, Object> model = new HashMap<>();
-//        List<Groups> groupsList = Factory.getInstance().getGenericRepositoryInterface(Groups.class).getAllObjects();
-////        List<T> modelList = Factory.getInstance().getGenericRepositoryInterface(model).getAllObjects();
-//        for(Groups groupsLists : groupsList ){
-//
-//            if(groupsLists.getGroupsId().equals(groups.getGroupsId())){
-//            }
-//            else {
-//                groupsList.remove(groupsLists.getGroupsId());
-//            }
-//
-//        }
-//
-//        model.put("formOfTrainingName", new String());
-//        model.put("formOfTrainingNameArray", groupsList);
-//        return  model;
-//    }
-
     @Override
     public void routes() {
         get("/schedule", (request, response) -> {
@@ -241,9 +219,6 @@ public class SiteRoutes extends BaseController {
             }
         });
 
-//        post("/find", (request, response) -> Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName", request.queryParams("groupsName")));
-
-
         post("/api/users/registration", (request, response) -> {
             log.info("Starting /api/users/registration");
             Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject(groupsColumn, request.queryParams(groupsColumn)));
@@ -256,38 +231,6 @@ public class SiteRoutes extends BaseController {
             Users login = new Users(request.queryParams("login"), request.queryParams("password"));
 
            return Factory.getInstance().getUsersDAO().loginUsers(login);
-//            UserController userController = new UserController(login);
-//            userController.setHashPassword();
-//            return userController.userLogin();
         });
-        //        get("/add", (request, response) -> {
-//            System.out.println("Выполняется /advice_form");
-//            HashMap<String, Object> model = new HashMap<>();
-////            Advice advice = new Advice(request.queryParams("text"), request.queryParams("category"));
-////            AdviceController adviceController = new AdviceController(advice);
-////            adviceController.addToDataBase();
-////            model.put("id", advice.getUsersId());
-////            model.put("category", advice.getCategory());
-////            model.put("text", advice.getText());
-////            model.put("rating", advice.getRating());
-////            return new ModelAndView(model, "/public/templates/last_advice.vtl");
-//            return new ModelAndView(new HashMap(), "/public/templates/form.vtl");
-//        }, new VelocityTemplateEngine());
-
-//        post("/addFormOfTraining",(request, response) -> {
-//            FormOfTraining formOfTraining = new FormOfTraining(request.queryParams(formOfTrainingColumn));
-//            Factory.getInstance().getGenericRepositoryInterface().addObject(formOfTraining);
-//        return new ModelAndView(formOfTrainingName(), "/public/index.html");
-//        }, new VelocityTemplateEngine());
-//
-//        post("/deleteFormOfTraining",(request, response) -> {
-//           FormOfTraining formOfTraining = FormOfTraining.class.cast(Factory.getInstance().getGenericRepositoryInterface(FormOfTraining.class).getObject(formOfTrainingColumn ,request.queryParams(formOfTrainingColumn)));
-//            Factory.getInstance().getGenericRepositoryInterface().removeObject(formOfTraining);
-//            return new ModelAndView(formOfTrainingName(), "/public/index.html");
-//        }, new VelocityTemplateEngine());
-        //        get("/advice_form", (request, response) -> {
-//            System.out.println("Выполняется /advice_form");
-//            return new ModelAndView(new HashMap(), "/public/templates/form.vtl");
-//        }, new VelocityTemplateEngine());
     }
 }

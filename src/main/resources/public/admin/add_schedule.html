@@ -11,11 +11,12 @@
     <title>Добавить расписание</title>
 </head>
 <body>
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
-        #include("public/template/include_navigation.html")
-        <main class="mdl-layout__content mdl-color--grey-100">
-            <div class="page-content">
-                <div class="mdl-grid">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
+    #include("public/template/include_navigation.html")
+    <main class="mdl-layout__content mdl-color--grey-100">
+        <div class="page-content">
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col mdl-grid">
                     <div class="mdl-cell">
                         <div class="mdl-card mdl-shadow--2dp">
                             <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
@@ -43,32 +44,39 @@
                                 </form>
                             </div>
                         </div>
-
-
-
-                        <!--<form action="#">-->
-                            <!--<div class="mdl-textfield mdl-js-textfield">-->
-                                <!--<input class="mdl-textfield__input" type="text">-->
-                                <!--<label class="mdl-textfield__label">Аудитория</label>-->
-                            <!--</div>-->
-                            <!--<div class="mdl-textfield mdl-js-textfield">-->
-                                <!--<input class="mdl-textfield__input" type="text">-->
-                                <!--<label class="mdl-textfield__label">Преподаватель</label>-->
-                            <!--</div>-->
-                            <!--<div class="mdl-textfield mdl-js-textfield">-->
-                                <!--<input class="mdl-textfield__input" type="text">-->
-                                <!--<label class="mdl-textfield__label">Предмет</label>-->
-                            <!--</div>-->
-                            <!--<div class="mdl-textfield mdl-js-textfield">-->
-                                <!--<input class="mdl-textfield__input" type="text">-->
-                                <!--<label class="mdl-textfield__label">Тип предмета</label>-->
-                            <!--</div>-->
-                            <!--<input class="mdl-button mdl-button&#45;&#45;colored" type="submit">-->
-                        <!--</form>-->
+                    </div>
+                    <div class="mdl-cell">
+                        <div class="mdl-card mdl-shadow--2dp">
+                            <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
+                                <h2 class="mdl-card__title-text">Updates</h2>
+                            </div>
+                            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                                <form action="#">
+                                    <div class="mdl-textfield mdl-js-textfield">
+                                        <input class="mdl-textfield__input" type="text">
+                                        <label class="mdl-textfield__label">Аудитория</label>
+                                    </div>
+                                    <div class="mdl-textfield mdl-js-textfield">
+                                        <input class="mdl-textfield__input" type="text">
+                                        <label class="mdl-textfield__label">Преподаватель</label>
+                                    </div>
+                                    <div class="mdl-textfield mdl-js-textfield">
+                                        <input class="mdl-textfield__input" type="text">
+                                        <label class="mdl-textfield__label">Предмет</label>
+                                    </div>
+                                    <div class="mdl-textfield mdl-js-textfield">
+                                        <input class="mdl-textfield__input" type="text">
+                                        <label class="mdl-textfield__label">Тип предмета</label>
+                                    </div>
+                                    <input class="mdl-button mdl-button--colored" type="submit">
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
+</div>
 </body>
 </html>
