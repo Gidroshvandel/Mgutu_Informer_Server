@@ -7,14 +7,14 @@
 <body>
 <table id="myTable" border="2">
     <tbody>
-                #foreach($groupsName in $groupsNameArray)
+                #foreach($groups in $groupsList)
                 <tr>
-                    <td>$groupsName</td>
+                    <td>$groups.groupsName</td>
                 </tr>
                 #end
         <tr>
             <td>
-                <form action="/api/addGroups" accept-charset="UTF-8" method="POST">
+                <form action="/api/groups.add" accept-charset="UTF-8" method="POST">
                     <input type="text" name="groupsName" placeholder="Добавить группу" value="">
                     <input type="submit" value="+">
                 </form>
@@ -32,7 +32,7 @@ function post(msg,url) {
 //    var msg = prompt('Сообщение');
 
    var form = document.createElement("form");
-    if(url === "/api/deleteGroups"){
+    if(url === "/api/groups.delete"){
         form.setAttribute("method", 'post');
         var input = document.createElement("input");
         input.setAttribute("type", "hidden");

@@ -5,8 +5,8 @@ import utils.EMF;
 /**
  * Created by Gidro on 14.10.2015.
  */
-public abstract class BaseController extends EMF {
-    public BaseController(){
+public abstract class BaseRoutes extends EMF {
+    public BaseRoutes(){
         routes();
     }
 

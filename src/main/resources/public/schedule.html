@@ -50,7 +50,7 @@
 <span id="groupName"></span> 
 </head>
 <body>
-    <form action="/api/addLessonTime" accept-charset="UTF-8" method="POST">
+    <form action="/api/lessonTime.add" accept-charset="UTF-8" method="POST">
                     <input type="text" name="timeStart" placeholder="Начало занятия" value="">
                     <input type="text" name="timeEnd" placeholder="конец занятия" value="">
                     <input type="submit" value="+">
@@ -65,29 +65,29 @@
                 Аудитория
                 <input class="lectureHallClass" list="lectureHall$weekDayName$lessonTime">
                 <datalist id="lectureHall$weekDayName$lessonTime">
-                #foreach($lectureHall in $lectureHallArray)
-                  <option>$lectureHall</option>
+                #foreach($lectureHall in $lectureHallList)
+                  <option>$lectureHall.lectureHallName</option>
                 #end
                 </datalist><br>
                 Преподаватель
                 <input class="teacherClass" list="teacher$weekDayName$lessonTime">
                 <datalist id="teacher$weekDayName$lessonTime">
-                #foreach($teacher in $teacherArray)
-                  <option>$teacher</option>
+                #foreach($teacher in $teacherList)
+                  <option>$teacher.</option>
                 #end
                 </datalist ><br>
                 Предмет
                 <input class="disciplineClass" list="discipline$weekDayName$lessonTime">
                 <datalist id="discipline$weekDayName$lessonTime">
-                #foreach($discipline in $disciplineArray)
-                  <option>$discipline</option>
+                #foreach($discipline in $disciplineList)
+                  <option>$discipline.</option>
                 #end
                 </datalist><br>
                 Тип предмета
                 <input class="employmentTypeClass" list="employmentType$weekDayName$lessonTime">
                 <datalist id="employmentType$weekDayName$lessonTime">
-                #foreach($employmentType in $employmentTypeArray)
-                  <option>$employmentType</option>
+                #foreach($employmentType in $employmentTypeList)
+                  <option>$employmentType.</option>
                 #end
                 </datalist><br>
             </div>

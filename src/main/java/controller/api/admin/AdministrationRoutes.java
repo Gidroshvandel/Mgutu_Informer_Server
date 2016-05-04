@@ -1,6 +1,6 @@
-package controller.api.subapi;
+package controller.api.admin;
 
-import controller.BaseController;
+import controller.BaseRoutes;
 import dao.Factory;
 import model.Groups;
 import model.Teacher;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static spark.Spark.*;
 
-public class AdministrationRoutes extends BaseController{
+public class AdministrationRoutes extends BaseRoutes {
 
     private final String ROOT = "/admin/";
 
