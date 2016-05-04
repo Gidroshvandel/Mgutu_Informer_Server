@@ -32,15 +32,22 @@ function post(msg,url) {
 //    var msg = prompt('Сообщение');
     
    var form = document.createElement("form");
-    form.setAttribute("method", 'get');
+    if(url === "/api/deleteGroups"){
+        form.setAttribute("method", 'post');
+        var input = document.createElement("input");
+        input.setAttribute("type", "hidden");
+        input.setAttribute("name", 'name');
+        input.setAttribute("value", msg);
+        form.appendChild(input);
+        console.log(url);
+        console.log(msg);
+        }
+    else{
+        form.setAttribute("method", 'get');
+        setCookie("name",msg);
+        console.log(url);
+    }
     form.setAttribute("action", url);
-    setCookie("name",msg);
-//    var input = document.createElement("input");
-//    input.setAttribute("type", "hidden");
-//    input.setAttribute("name", 'name');
-//    input.setAttribute("value", msg);
-
-//    form.appendChild(input);
     form.submit();
 };
 </script>

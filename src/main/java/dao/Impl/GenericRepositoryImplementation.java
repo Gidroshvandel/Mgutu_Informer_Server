@@ -1,15 +1,18 @@
 package dao.Impl;
 
 import dao.GenericRepositoryInterface;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import utils.EMF;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class GenericRepositoryImplementation<T> implements GenericRepositoryInterface {
+public class GenericRepositoryImplementation<T> implements GenericRepositoryInterface<T> {
     protected EntityManager entityManager;
     private Class<T> type;
 
@@ -85,7 +88,7 @@ public class GenericRepositoryImplementation<T> implements GenericRepositoryInte
 
 
     @Override
-    public Object getObject(String columnName, String columnValue) {
+    public T getObject(String columnName, String columnValue) {
         entityManager = EMF.getEm();
         try {
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -93,6 +96,29 @@ public class GenericRepositoryImplementation<T> implements GenericRepositoryInte
             Root<T> u = criteria.from(type);
             TypedQuery<T> query = entityManager.createQuery(
                     criteria.select(u).where(builder.equal(u.get(columnName), columnValue)));
+            return query.getSingleResult();
+        } catch (NoResultException noResult) {
+            return null;
+        }catch (NonUniqueResultException nonUnique) {
+            return null;
+        }
+    }
+
+    @Override
+    public T getObject(Map<String,Object> map) {
+        entityManager = EMF.getEm();
+        try {
+
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<T> criteria = builder.createQuery(type);
+            Root<T> u = criteria.from(type);
+            criteria.select(u);
+            for(Map.Entry<String,Object> map1: map.entrySet())
+            {
+                criteria.where(builder.equal(u.get(map1.getKey()), map1.getValue()));
+            }
+
+            TypedQuery<T> query = entityManager.createQuery(criteria);
             return query.getSingleResult();
         } catch (NoResultException noResult) {
             return null;

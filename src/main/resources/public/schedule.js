@@ -3,7 +3,7 @@
     document.getElementById("groupName").appendChild(document.createTextNode(getCookie("name")));
 }());
 
-function getSchedule() {
+function setSchedule() {
 
     var groupName = document.getElementById("groupName").textContent,
         weekDayName = document.getElementsByClassName("weekDayClassName"),
@@ -38,7 +38,7 @@ function getSchedule() {
             res = new respounse(groupName, weekArr);
             var leaderStr = JSON.stringify(res);
             console.log(leaderStr);
-            post(leaderStr,"/api/getSchedule");
+            post(leaderStr,"/api/setSchedule");
 //  var in1 = new input("101","Nikitin","Math");
 //    var in2 = new input("1012","Nikitin2","Math2");
 //    var les = new lessonTime("12",[in1.input,in2.input])

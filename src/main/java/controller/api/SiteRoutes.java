@@ -35,6 +35,71 @@ public class SiteRoutes extends BaseController {
         return model;
     }
 
+    private void setSchedule(Schedule scheduleJsonModel) {
+        Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject(groupsColumn, scheduleJsonModel.getGroupName()));
+
+        for(int i = 0; i< scheduleJsonModel.getWeekDay().size();i++) {
+            Weekday weekday = Weekday.valueOf(scheduleJsonModel.getWeekDay().get(i).getWeekDayName());
+            for (int j = 0; j < scheduleJsonModel.getWeekDay().get(i).getLessonTime().size(); j++) {
+
+                String discipline = scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getScheduleElements().getDiscipline();
+                String employmentType = scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getScheduleElements().getEmploymentType();
+                String lectureHall = scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getScheduleElements().getLectureHall();
+                String teacher = scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getScheduleElements().getTeacher();
+
+                if(discipline.equals("")&&employmentType.equals("")&&lectureHall.equals("")&&teacher.equals("")){}
+                else {
+                    model.Schedule schedule = new model.Schedule();
+                    schedule.setGroups(groups);
+                    schedule.setWeekday(weekday);
+                    String lessonTimeStart = Converter.startToDouble(scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getTime()).toString();
+//                    String lessonTimeEnd = Converter.endToDouble(scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getTime()).toString();
+                    LessonTime lessonTime = LessonTime.class.cast(Factory.getInstance().getGenericRepositoryInterface(LessonTime.class).getObject("lessonTimeStart",lessonTimeStart));
+                    schedule.setLessonTime(lessonTime);
+                    schedule.setNumberWeekday(NumberWeekday.first);
+
+                    if (!discipline.equals("")) {
+                        schedule.setDiscipline(setScheduleElement("disciplineName", discipline, new Discipline(discipline), Discipline.class));
+                    }
+                    if (!employmentType.equals("")) {
+                        schedule.setEmploymentType(setScheduleElement("employmentTypeName", employmentType, new EmploymentType(employmentType), EmploymentType.class));
+                    }
+                    if (!lectureHall.equals("")) {
+                        schedule.setLectureHall(setScheduleElement("lectureHallName", lectureHall, new LectureHall(lectureHall), LectureHall.class));
+
+                    }
+                    if (!teacher.equals("")) {
+                        schedule.setTeacher(setScheduleElement("teacherName", teacher, new Teacher(teacher), Teacher.class));
+                    }
+
+                    Map<String,Object> map = new HashMap<>();
+                    map.put("weekday",schedule.getWeekday());
+                    map.put("numberWeekday",schedule.getNumberWeekday());
+                    map.put("lessonTime",schedule.getLessonTime().getLessonTimeId());
+
+                    if( Factory.getInstance().getGenericRepositoryInterface(model.Schedule.class).getObject(map) == null){
+                        Factory.getInstance().getGenericRepositoryInterface().addObject(schedule);
+                    }
+
+                }
+            }
+        }
+    }
+
+    private <T> T setScheduleElement(String columnName, String columnValue, Object o, Class<T> tClass){
+        Boolean bool = true;
+        T scheduleElement = null;
+        while (bool) {
+            scheduleElement = tClass.cast(Factory.getInstance().getGenericRepositoryInterface(tClass).getObject(columnName, columnValue));
+            if (scheduleElement != null) {
+                bool = false;
+            } else {
+                Factory.getInstance().getGenericRepositoryInterface().addObject(o);
+            }
+        }
+        return scheduleElement;
+    }
+
     private HashMap getSchedule() {
         HashMap<String, Object> model = new HashMap<>();
         List<Weekday> weekdayNameList = Arrays.asList(Weekday.values());
@@ -45,12 +110,12 @@ public class SiteRoutes extends BaseController {
         List<Double> lessonTimeEndList = new ArrayList<>();
         for (LessonTime Lists : lessonTimeList) {
 
-            lessonTimeStartList.add(Double.parseDouble(Lists.getLessonTimeStart()));
+            lessonTimeStartList.add(Lists.getLessonTimeStart());
 
         }
         for (LessonTime Lists : lessonTimeList) {
 
-            lessonTimeEndList.add(Double.parseDouble(Lists.getLessonTimeEnd()));
+            lessonTimeEndList.add(Lists.getLessonTimeEnd());
 
         }
         Collections.sort(lessonTimeStartList);
@@ -123,47 +188,50 @@ public class SiteRoutes extends BaseController {
 
         post("/api/addLessonTime", (request, response) -> {
             log.info("Starting /api/addLessonTime");
-            LessonTime lessonTime = new LessonTime(request.queryParams("timeStart"), request.queryParams("timeEnd"));
-            response.redirect("/schedule");
-            return Factory.getInstance().getGenericRepositoryInterface().addObject(lessonTime);
-
+            try {
+                LessonTime lessonTime = new LessonTime(Double.parseDouble(request.queryParams("timeStart")), Double.parseDouble(request.queryParams("timeEnd")));
+                response.redirect("/schedule");
+                return Factory.getInstance().getGenericRepositoryInterface().addObject(lessonTime);
+            }catch (Exception e){
+                log.log(Level.SEVERE, "Exception: ", e);
+                return e;
+            }
         });
 
         post("/api/addGroups", (request, response) -> {
             log.info("Starting /api/addGroups");
             String groupsName = request.queryParams(groupsColumn);
             try {
-                Double.parseDouble(groupsName);
                 Groups addGroups = new Groups(groupsName);
                 response.redirect("/index");
                 return Factory.getInstance().getGenericRepositoryInterface().addObject(addGroups);
             } catch (Exception e) {
                 log.log(Level.SEVERE, "Exception: ", e);
-                return "error_name";
+                return e;
             }
         });
 
         post("/api/deleteGroups", (request, response) -> {
             log.info("Starting /api/deleteGroups");
-            Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject(groupsColumn, request.queryParams("name")));
+            String a =request.queryParams("name");
+            Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject(groupsColumn, a));
             response.redirect("/index");
             return Factory.getInstance().getGenericRepositoryInterface().removeObject(groups);
         });
 
-        post("/api/getSchedule", (request, response) -> {
-            log.info("Starting /api/getSchedule");
+        post("/api/setSchedule", (request, response) -> {
+            log.info("Starting /api/setSchedule");
             Gson gson = new GsonBuilder().create();
             String a = request.queryParams("name");
-//            JsonParser parser = new JsonParser();
             Schedule schedule = new Schedule();
             try {
                 schedule = gson.fromJson(a, Schedule.class);
+                setSchedule(schedule);
+                return "";
             } catch (Exception e) {
-
+                log.log(Level.SEVERE, "Exception: ", e);
+                return e;
             }
-
-
-            return schedule;
         });
 
 //        post("/find", (request, response) -> Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName", request.queryParams("groupsName")));
@@ -178,7 +246,6 @@ public class SiteRoutes extends BaseController {
 
         post("/api/users/login", (request, response) -> {
             log.info("Starting /api/users/login");
-
             Users login = new Users(request.queryParams("login"), request.queryParams("password"));
 
             return Factory.getInstance().getUsersDAO().loginUsers(login);
