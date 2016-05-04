@@ -43,8 +43,7 @@ public class UsersDAOImpl extends EMF implements UsersDAO  {
 
 //        Map<String, Object> result = new HashMap<>();
 
-            em = getEm();
-
+        em = getEm();
         try {
             em.getTransaction().begin();
 
@@ -70,6 +69,9 @@ public class UsersDAOImpl extends EMF implements UsersDAO  {
             }
             return "Error1"; //Ошибка записи пользователя
         }
+        finally {
+            em.close();
+        }
     }
 
     @Override
@@ -80,7 +82,6 @@ public class UsersDAOImpl extends EMF implements UsersDAO  {
 //        Map<String, Object> result = new HashMap<>();
 
             em = getEm();
-
         try {
             em.getTransaction().begin();
 
@@ -108,6 +109,9 @@ public class UsersDAOImpl extends EMF implements UsersDAO  {
                 em.getTransaction().rollback();
             }
             return "Error3";
+        }
+        finally {
+            em.close();
         }
     }
 

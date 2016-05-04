@@ -30,16 +30,18 @@ public class GenericRepositoryImplementation<T> implements GenericRepositoryInte
     @Override
     public Boolean addObject(Object emp) {
         entityManager = EMF.getEm();
-        entityManager.getTransaction().begin();
         try{
+            entityManager.getTransaction().begin();
             entityManager.persist(emp);
             entityManager.flush();
+            entityManager.getTransaction().commit();
+            return true;
         }catch (Exception ex){
             return  false;
         }
-
-        entityManager.getTransaction().commit();
-        return true;
+        finally {
+            entityManager.close();
+        }
     }
 
     @Override
@@ -58,31 +60,41 @@ public class GenericRepositoryImplementation<T> implements GenericRepositoryInte
         }catch (NonUniqueResultException nonUnique) {
             return null;
         }
+        finally {
+            entityManager.close();
+        }
     }
 
     @Override
     public Boolean removeObject(Object emp) {
+        entityManager = EMF.getEm();
         try {
-            entityManager = EMF.getEm();
             entityManager.getTransaction().begin();
             entityManager.remove(entityManager.contains(emp) ? emp : entityManager.merge(emp));
             entityManager.getTransaction().commit();
+            return true;
         } catch (Exception ex) {
             return false;
         }
-        return true;
+        finally {
+            entityManager.close();
+        }
+
     }
 
     @Override
     public Boolean editObject(Object emp) {
+        entityManager = EMF.getEm();
         try{
-            entityManager = EMF.getEm();
             entityManager.getTransaction().begin();
             entityManager.merge(emp);
             entityManager.getTransaction().commit();
             return true;
         } catch(Exception ex) {
             return false;
+        }
+        finally {
+            entityManager.close();
         }
     }
 
@@ -101,6 +113,9 @@ public class GenericRepositoryImplementation<T> implements GenericRepositoryInte
             return null;
         }catch (NonUniqueResultException nonUnique) {
             return null;
+        }
+        finally {
+            entityManager.close();
         }
     }
 
@@ -124,6 +139,9 @@ public class GenericRepositoryImplementation<T> implements GenericRepositoryInte
             return null;
         }catch (NonUniqueResultException nonUnique) {
             return null;
+        }
+        finally {
+            entityManager.close();
         }
     }
 
