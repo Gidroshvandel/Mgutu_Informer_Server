@@ -32,9 +32,9 @@ public class GenericRepositoryImplementation<T> implements GenericRepositoryInte
         entityManager = EMF.getEm();
         try{
             entityManager.getTransaction().begin();
-            entityManager.getTransaction().commit();
             entityManager.persist(emp);
             entityManager.flush();
+            entityManager.getTransaction().commit();
             return true;
         }catch (Exception ex){
             return  false;
