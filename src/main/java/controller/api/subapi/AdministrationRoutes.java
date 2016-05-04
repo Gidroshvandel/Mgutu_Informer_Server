@@ -7,7 +7,7 @@ import model.Teacher;
 
 import static spark.Spark.post;
 
-public class ScheduleRoutes extends BaseController{
+public class AdministrationRoutes extends BaseController{
 
     @Override
     public void routes() {

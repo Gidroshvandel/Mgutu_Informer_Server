@@ -1,12 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    #include("/public/template/include_head.html")
-    <title>Административная панель</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
-    #include("public/template/include_navigation.html")
-</div>
+<table id="myTable" border="2">
+    <tbody>
+                #foreach($groupsName in $groupsNameArray)
+                <tr>
+                    <td>$groupsName</td>
+                </tr>
+                #end
+        <tr>
+            <td>
+                <form action="/api/addGroups" accept-charset="UTF-8" method="POST">
+                    <input type="text" name="groupsName" placeholder="Добавить группу" value="">
+                    <input type="submit" value="+">
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
 </body>
 </html>
+<script src = "script.js"></script>
+<script src = "cookie.js"></script>
+<script>
+function post(msg,url) {
+//    var url = el.getAttribute('href');
+//    var msg = prompt('Сообщение');
+
+   var form = document.createElement("form");
+    if(url === "/api/deleteGroups"){
+        form.setAttribute("method", 'post');
+        var input = document.createElement("input");
+        input.setAttribute("type", "hidden");
+        input.setAttribute("name", 'name');
+        input.setAttribute("value", msg);
+        form.appendChild(input);
+        console.log(url);
+        console.log(msg);
+        }
+    else{
+        form.setAttribute("method", 'get');
+        setCookie("name",msg);
+        console.log(url);
+    }
+    form.setAttribute("action", url);
+    form.submit();
+};
+</script>
+
+<!--
+<script>
+function post(name, adress)
+{
+var xhr = new XMLHttpRequest();
+console.log(name);
+var body = 'name=' + encodeURIComponent(name);
+
+xhr.open("POST", adress, true)
+xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+//xhr.onreadystatechange = ...;
+console.log(body);
+xhr.send(body);
+};
+</script>
+-->
+
+<!--<script src="http://code.jquery.com/jquery-latest.min.js"></script>-->
+<!--<h1 align="center">Hi people</h1>-->
+<!--<span id=1>Форма обучения</span>-->
+
+
+
+<!--
+<script language="JavaScript">
+
+function newPage()
+{
+ value1=""+document.form1.userF.value;
+ value2=""+document.form1.userI.value;
+ value3=""+document.form1.userO.value;
+ self.location="file1.html?="+value1+"="+value2+"="+value3;
+}
+//
+</script>
+</head>
+<body>
+<form name="form1">
+Фамилия&nbsp;<input type="text" name="userF">
+Имя&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="userI"><br>
+Отчество&nbsp;<input type="text" name="userO"><br>
+<input type="button" name="button" value="Подтвердить данные" onClick="newPage()">
+</form>
+-->
+<!--
+<script type="text/javascript">
+function addRow(id){
+var tbody = document.getElementById(id).getElementsByTagName("TBODY")[0];
+var row = document.createElement("TR")
+var td1 = document.createElement("TD")
+td1.appendChild(document.createTextNode("column 1"))
+var td2 = document.createElement("TD")
+td2.appendChild (document.createTextNode("column 2"))
+row.appendChild(td1);
+row.appendChild(td2);
+tbody.appendChild(row);
+}
+</script>
+
+<p>Скрипт добавляет строку в таблицу, после нажатия на ссылку.</p>
+-->
+
+<!--
+<a href="javascript://" onclick="addRow('myTable');return false;">Добавить строку</a>
+<table id="myTable" cellspacing="0" border="1">
+  <tbody>
+    <tr>
+      <td>row1_column1</td><td>row1_column1</td>
+    </tr>
+  </tbody>
+</table>
+-->

@@ -15,15 +15,20 @@ public class LessonTime {
 
 
     @Column(name = "lessonTimeStart", nullable = false)
-    private String lessonTimeStart;
+    private Double lessonTimeStart;
 
     @Column(name = "lessonTimeEnd", nullable = false)
-    private String lessonTimeEnd;
+    private Double lessonTimeEnd;
 
 //    @OneToMany(mappedBy = "lessonTime",orphanRemoval=true, cascade = {CascadeType.ALL})
 //    private Set<Schedule> schedule;
 
     public LessonTime() {
+    }
+
+    public LessonTime(Double lessonTimeStart, Double lessonTimeEnd) {
+        this.lessonTimeStart = lessonTimeStart;
+        this.lessonTimeEnd = lessonTimeEnd;
     }
 
     public Long getLessonTimeId() {
@@ -34,19 +39,19 @@ public class LessonTime {
         this.lessonTimeId = lessonTimeId;
     }
 
-    public String getLessonTimeStart() {
+    public Double getLessonTimeStart() {
         return lessonTimeStart;
     }
 
-    public void setLessonTimeStart(String lessonTimeStart) {
+    public void setLessonTimeStart(Double lessonTimeStart) {
         this.lessonTimeStart = lessonTimeStart;
     }
 
-    public String getLessonTimeEnd() {
+    public Double getLessonTimeEnd() {
         return lessonTimeEnd;
     }
 
-    public void setLessonTimeEnd(String lessonTimeEnd) {
+    public void setLessonTimeEnd(Double lessonTimeEnd) {
         this.lessonTimeEnd = lessonTimeEnd;
     }
 

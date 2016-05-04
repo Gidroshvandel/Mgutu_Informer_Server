@@ -1,13 +1,8 @@
 package model;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.lang.reflect.Type;
 
 @Entity
 @Table(name = "Schedule")
@@ -26,9 +21,9 @@ public class Schedule {
     @JoinColumn(name = "teacherId", nullable = false)
     private Teacher teacher;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "formOfTrainingId", nullable = false)
-    private FormOfTraining formOfTraining;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "formOfTrainingId", nullable = false)
+//    private FormOfTraining formOfTraining;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "disciplineId", nullable = false)
@@ -46,8 +41,7 @@ public class Schedule {
     @JoinColumn(name = "lessonTimeId", nullable = false)
     private LessonTime lessonTime;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "numberWeekdayId", nullable = false)
+    @Enumerated(EnumType.STRING)
     private NumberWeekday numberWeekday;
 
     @Enumerated(EnumType.STRING)
@@ -83,6 +77,62 @@ public class Schedule {
 
     public void setScheduleId(Long scheduleId) {
         this.scheduleId = scheduleId;
+    }
+
+//    public FormOfTraining getFormOfTraining() {
+//        return formOfTraining;
+//    }
+
+//    public void setFormOfTraining(FormOfTraining formOfTraining) {
+//        this.formOfTraining = formOfTraining;
+//    }
+
+    public Discipline getDiscipline() {
+        return discipline;
+    }
+
+    public void setDiscipline(Discipline discipline) {
+        this.discipline = discipline;
+    }
+
+    public EmploymentType getEmploymentType() {
+        return employmentType;
+    }
+
+    public void setEmploymentType(EmploymentType employmentType) {
+        this.employmentType = employmentType;
+    }
+
+    public LectureHall getLectureHall() {
+        return lectureHall;
+    }
+
+    public void setLectureHall(LectureHall lectureHall) {
+        this.lectureHall = lectureHall;
+    }
+
+    public LessonTime getLessonTime() {
+        return lessonTime;
+    }
+
+    public void setLessonTime(LessonTime lessonTime) {
+        this.lessonTime = lessonTime;
+    }
+
+    public NumberWeekday getNumberWeekday() {
+        return numberWeekday;
+    }
+
+    public void setNumberWeekday(NumberWeekday numberWeekday) {
+        this.numberWeekday = numberWeekday;
+    }
+
+    public Weekday getWeekday() {
+        return weekday;
+    }
+
+    public void setWeekday(Weekday weekday) {
+        this.weekday = weekday;
     }
 }
 

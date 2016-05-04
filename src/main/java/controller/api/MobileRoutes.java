@@ -16,7 +16,7 @@ public class MobileRoutes extends BaseController {
     @Override
     public void routes() {
         get("/string", (request, response) -> "Hello world");
-        get("/schedule", (request, response) -> {
+        get("/API/schedule.get", (request, response) -> {
             Gson gson = new GsonBuilder()
                     .setPrettyPrinting()
                     .create();

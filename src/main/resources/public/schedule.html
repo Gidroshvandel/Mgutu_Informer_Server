@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Рассписание</title>
+    <style>
+        .dayClass{
+    padding: 2%;
+    margin: 2%; /* Отступы вокруг элемента */
+    background: rgba(79, 18, 245, 0.67); /* Фоновый цвет блока */
+/*    width:350px;  Ширина блока */
+/*    height: 100px;  Высота блока */
+    border:4px solid #777; /* Ширина вид и цвет рамки */
+    border-radius:30px; /* Радиус скругления углов*/
+    -webkit-border-radius:30px; /* Safari, Chrome */
+    -moz-border-radius:30px; /* Firefox */
+    box-shadow: 0 0 10px 2px #1A3457; /* Тень*/
+    -webkit-box-shadow: 0 0 10px 2px #1A3457; /* Safari, Chrome */
+    -moz-box-shadow: 0 0 10px 2px #1A3457; /* Firefox */
+}
+        .sheduleInformClass{
+    padding: 2%;
+    margin: 2%; /* Отступы вокруг элемента */
+    background: rgba(79, 18, 245, 0.67); /* Фоновый цвет блока */
+/*    width:350px;  Ширина блока */
+/*    height: 100px;  Высота блока */
+    border:4px solid #777; /* Ширина вид и цвет рамки */
+    border-radius:30px; /* Радиус скругления углов*/
+    -webkit-border-radius:30px; /* Safari, Chrome */
+    -moz-border-radius:30px; /* Firefox */
+    box-shadow: 0 0 10px 2px #1A3457; /* Тень*/
+    -webkit-box-shadow: 0 0 10px 2px #1A3457; /* Safari, Chrome */
+    -moz-box-shadow: 0 0 10px 2px #1A3457; /* Firefox */
+}
+        .lessonTimeClass{
+    padding: 2%;
+    margin: 2%; /* Отступы вокруг элемента */
+    background: rgba(79, 18, 245, 0.67); /* Фоновый цвет блока */
+/*    width:350px;  Ширина блока */
+/*    height: 100px;  Высота блока */
+    border:4px solid #777; /* Ширина вид и цвет рамки */
+    border-radius:30px; /* Радиус скругления углов*/
+    -webkit-border-radius:30px; /* Safari, Chrome */
+    -moz-border-radius:30px; /* Firefox */
+    box-shadow: 0 0 10px 2px #1A3457; /* Тень*/
+    -webkit-box-shadow: 0 0 10px 2px #1A3457; /* Safari, Chrome */
+    -moz-box-shadow: 0 0 10px 2px #1A3457; /* Firefox */
+}
+    </style>
+<span id="groupName"></span> 
+</head>
+<body>
+    <form action="/api/addLessonTime" accept-charset="UTF-8" method="POST">
+                    <input type="text" name="timeStart" placeholder="Начало занятия" value="">
+                    <input type="text" name="timeEnd" placeholder="конец занятия" value="">
+                    <input type="submit" value="+">
+            </form>
+    #foreach($weekDayName in $weekDayArray)    
+    <div class = "dayClass">
+        <span class = "weekDayClassName">$weekDayName</span>
+        #foreach($lessonTime in $lessonTimeArray)
+        <div class = "dayClass">
+           <span class = "lessonTimeClass">$lessonTime</span>
+            <div class = "sheduleInformClass">
+                Аудитория
+                <input class="lectureHallClass" list="lectureHall$weekDayName$lessonTime">
+                <datalist id="lectureHall$weekDayName$lessonTime">
+                #foreach($lectureHall in $lectureHallArray)
+                  <option>$lectureHall</option>
+                #end
+                </datalist><br>
+                Преподаватель
+                <input class="teacherClass" list="teacher$weekDayName$lessonTime">
+                <datalist id="teacher$weekDayName$lessonTime">
+                #foreach($teacher in $teacherArray)
+                  <option>$teacher</option>
+                #end
+                </datalist ><br>
+                Предмет
+                <input class="disciplineClass" list="discipline$weekDayName$lessonTime">
+                <datalist id="discipline$weekDayName$lessonTime">
+                #foreach($discipline in $disciplineArray)
+                  <option>$discipline</option>
+                #end
+                </datalist><br>
+                Тип предмета
+                <input class="employmentTypeClass" list="employmentType$weekDayName$lessonTime">
+                <datalist id="employmentType$weekDayName$lessonTime">
+                #foreach($employmentType in $employmentTypeArray)
+                  <option>$employmentType</option>
+                #end
+                </datalist><br>
+            </div>
+            <div> <button onclick="">+</button> </div>
+        </div>
+        #end
+        <div> <button>+</button> </div>
+    </div>
+    #end
+    <div> <button onclick="setSchedule()">Сохранить</button> </div>
+</body>
+</html>
+<script src = "cookie.js"></script>
+<script src="schedule.js"></script>
+<script>
+function post(msg,url) {
+    
+   var form = document.createElement("form");
+    form.setAttribute("method", 'post');
+    form.setAttribute("action", url);
+
+    var input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("name", 'name');
+    input.setAttribute("value", msg);
+
+    form.appendChild(input);
+    form.submit();
+}
+</script>

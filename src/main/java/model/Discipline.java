@@ -23,6 +23,10 @@ public class Discipline {
     public Discipline() {
     }
 
+    public Discipline(String disciplineName) {
+        this.disciplineName = disciplineName;
+    }
+
     public Long getDisciplineId() {
         return disciplineId;
     }

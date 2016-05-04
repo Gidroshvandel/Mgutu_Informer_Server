@@ -23,6 +23,10 @@ public class LectureHall {
     public LectureHall() {
     }
 
+    public LectureHall(String lectureHallName) {
+        this.lectureHallName = lectureHallName;
+    }
+
     public Long getLectureHallId() {
         return lectureHallId;
     }

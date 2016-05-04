@@ -23,6 +23,10 @@ public class EmploymentType {
     public EmploymentType() {
     }
 
+    public EmploymentType(String employmentTypeName) {
+        this.employmentTypeName = employmentTypeName;
+    }
+
     public Long getEmploymentTypeId() {
         return employmentTypeId;
     }

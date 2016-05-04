@@ -45,7 +45,7 @@ public class Factory {
         return genericRepositoryInterface;
     }
     public GenericRepositoryInterface  getGenericRepositoryInterface(Class clazz){
-        genericRepositoryInterface = new GenericRepositoryImplementation<>(clazz);
+            genericRepositoryInterface = new GenericRepositoryImplementation<>(clazz);
         return genericRepositoryInterface;
     }
 

@@ -1,15 +1,22 @@
 package controller.api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import controller.BaseController;
 import controller.api.subapi.ScheduleRoutes;
 import dao.Factory;
 import model.*;
+import model.json.Schedule;
 import spark.ModelAndView;
+import utils.Converter;
 import utils.template.VelocityTemplateEngine;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static spark.Spark.get;
@@ -17,156 +24,270 @@ import static spark.Spark.post;
 
 public class SiteRoutes extends BaseController {
 
+
+public class SiteRoutes extends BaseController {
+    private static Logger log = Logger.getLogger(SiteRoutes.class.getName());
+
     private String groupsColumn = "groupsName";
     private String formOfTrainingColumn = "formOfTrainingName";
 
-//    private HashMap getGroupsName() {
-//        HashMap<String, Object> model = new HashMap<>();
-//
-//        List<Groups> listGroups = null;
-//        try {
-//            listGroups = Factory.getInstance().getGroupsDAO().getAllGroups();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        List<String> groupsNameList = listGroups.stream().map(groupsLists -> groupsLists.getGroupsName()).collect(Collectors.toList());
-//
-//        model.put("formOfTrainingName", new String());
-//        model.put("formOfTrainingNameArray", groupsNameList);
-//        return model;
-//    }
-
-//    private HashMap getTeachersName() {
-//        HashMap<String, Object> model = new HashMap<>();
-//
-//        List<Teacher> teachersList = null;
-//        try {
-//            teachersList = Factory.getInstance().getTeacherDAO().getAllTeachers();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        List<String> stringTeacherList = teachersList.stream().map(teacher -> teacher.getTeacherName()).collect(Collectors.toList());
-//
-//        model.put("teacherName", new String());
-//        model.put("teacherNameList", stringTeacherList);
-//        return model;
-//    }
-
-    private HashMap getFormParametrName(String modelColumnName, String groupsName) {
-        Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject(modelColumnName, groupsName));
-
-//        model.cast(Factory.getInstance().getGenericRepositoryInterface(model).getObject(modelColumnName,columnValue));
-
+    private HashMap getGroupsName() {
         HashMap<String, Object> model = new HashMap<>();
-        List<Groups> groupsList = Factory.getInstance().getGenericRepositoryInterface(Groups.class).getAllObjects();
-//        List<T> modelList = Factory.getInstance().getGenericRepositoryInterface(model).getAllObjects();
-        for (Groups groupsLists : groupsList) {
 
-            if (groupsLists.getGroupsId().equals(groups.getGroupsId())) {
-            } else {
-                groupsList.remove(groupsLists.getGroupsId());
-            }
+        List<Groups> listGroups = Factory.getInstance().getGenericRepositoryInterface(Groups.class).getAllObjects();
+        List<String> groupsNameList = listGroups.stream().map(groupsLists -> groupsLists.getGroupsName()).collect(Collectors.toList());
 
-        }
-
-        model.put("formOfTrainingName", new String());
-        model.put("formOfTrainingNameArray", groupsList);
+        model.put("groupsName", new String());
+        model.put("groupsNameArray", groupsNameList);
         return model;
     }
 
-    public void initRoutes() {
-        new ScheduleRoutes();
+    private void setSchedule(Schedule scheduleJsonModel) {
+        Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject(groupsColumn, scheduleJsonModel.getGroupName()));
+
+        for(int i = 0; i< scheduleJsonModel.getWeekDay().size();i++) {
+            Weekday weekday = Weekday.valueOf(scheduleJsonModel.getWeekDay().get(i).getWeekDayName());
+            for (int j = 0; j < scheduleJsonModel.getWeekDay().get(i).getLessonTime().size(); j++) {
+
+                String discipline = scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getScheduleElements().getDiscipline();
+                String employmentType = scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getScheduleElements().getEmploymentType();
+                String lectureHall = scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getScheduleElements().getLectureHall();
+                String teacher = scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getScheduleElements().getTeacher();
+
+                if(discipline.equals("")&&employmentType.equals("")&&lectureHall.equals("")&&teacher.equals("")){}
+                else {
+                    model.Schedule schedule = new model.Schedule();
+                    schedule.setGroups(groups);
+                    schedule.setWeekday(weekday);
+                    String lessonTimeStart = Converter.startToDouble(scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getTime()).toString();
+//                    String lessonTimeEnd = Converter.endToDouble(scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getTime()).toString();
+                    LessonTime lessonTime = LessonTime.class.cast(Factory.getInstance().getGenericRepositoryInterface(LessonTime.class).getObject("lessonTimeStart",lessonTimeStart));
+                    schedule.setLessonTime(lessonTime);
+                    schedule.setNumberWeekday(NumberWeekday.first);
+
+                    if (!discipline.equals("")) {
+                        schedule.setDiscipline(setScheduleElement("disciplineName", discipline, new Discipline(discipline), Discipline.class));
+                    }
+                    if (!employmentType.equals("")) {
+                        schedule.setEmploymentType(setScheduleElement("employmentTypeName", employmentType, new EmploymentType(employmentType), EmploymentType.class));
+                    }
+                    if (!lectureHall.equals("")) {
+                        schedule.setLectureHall(setScheduleElement("lectureHallName", lectureHall, new LectureHall(lectureHall), LectureHall.class));
+
+                    }
+                    if (!teacher.equals("")) {
+                        schedule.setTeacher(setScheduleElement("teacherName", teacher, new Teacher(teacher), Teacher.class));
+                    }
+
+                    Map<String,Object> map = new HashMap<>();
+                    map.put("weekday",schedule.getWeekday());
+                    map.put("numberWeekday",schedule.getNumberWeekday());
+                    map.put("lessonTime",schedule.getLessonTime().getLessonTimeId());
+
+                    if( Factory.getInstance().getGenericRepositoryInterface(model.Schedule.class).getObject(map) == null){
+                        Factory.getInstance().getGenericRepositoryInterface().addObject(schedule);
+                    }
+
+                }
+            }
+        }
     }
+
+    private <T> T setScheduleElement(String columnName, String columnValue, Object o, Class<T> tClass){
+        Boolean bool = true;
+        T scheduleElement = null;
+        while (bool) {
+            scheduleElement = tClass.cast(Factory.getInstance().getGenericRepositoryInterface(tClass).getObject(columnName, columnValue));
+            if (scheduleElement != null) {
+                bool = false;
+            } else {
+                Factory.getInstance().getGenericRepositoryInterface().addObject(o);
+            }
+        }
+        return scheduleElement;
+    }
+
+    private HashMap getSchedule() {
+        HashMap<String, Object> model = new HashMap<>();
+        List<Weekday> weekdayNameList = Arrays.asList(Weekday.values());
+
+        List<LessonTime> lessonTimeList = Factory.getInstance().getGenericRepositoryInterface(LessonTime.class).getAllObjects();
+        List<String> lessonTimeNameList = new ArrayList<>();
+        List<Double> lessonTimeStartList = new ArrayList<>();
+        List<Double> lessonTimeEndList = new ArrayList<>();
+        for (LessonTime Lists : lessonTimeList) {
+
+            lessonTimeStartList.add(Lists.getLessonTimeStart());
+
+        }
+        for (LessonTime Lists : lessonTimeList) {
+
+            lessonTimeEndList.add(Lists.getLessonTimeEnd());
+
+        }
+        Collections.sort(lessonTimeStartList);
+        Collections.sort(lessonTimeEndList);
+        for (int i = 0; i < lessonTimeEndList.size(); i++) {
+            lessonTimeNameList.add(Converter.toString(lessonTimeStartList.get(i), lessonTimeEndList.get(i)));
+        }
+        List<LectureHall> lectureHallList = Factory.getInstance().getGenericRepositoryInterface(LectureHall.class).getAllObjects();
+        List<String> lectureHallNameList = lectureHallList.stream().map(lectureHallLists -> lectureHallLists.getLectureHallName()).collect(Collectors.toList());
+        List<Teacher> teacherList = Factory.getInstance().getGenericRepositoryInterface(Teacher.class).getAllObjects();
+        List<String> teacherNameList = teacherList.stream().map(Lists -> Lists.getTeacherName()).collect(Collectors.toList());
+        List<Discipline> disciplineList = Factory.getInstance().getGenericRepositoryInterface(Discipline.class).getAllObjects();
+        List<String> disciplineNameList = disciplineList.stream().map(Lists -> Lists.getDisciplineName()).collect(Collectors.toList());
+        List<EmploymentType> employmentTypeList = Factory.getInstance().getGenericRepositoryInterface(EmploymentType.class).getAllObjects();
+        List<String> employmentTypeNameList = employmentTypeList.stream().map(Lists -> Lists.getEmploymentTypeName()).collect(Collectors.toList());
+        model.put("lectureHall", new String());
+        model.put("lectureHallArray", lectureHallNameList);
+        model.put("teacher", new String());
+        model.put("teacherArray", teacherNameList);
+        model.put("discipline", new String());
+        model.put("disciplineArray", disciplineNameList);
+        model.put("employmentType", new String());
+        model.put("employmentTypeArray", employmentTypeNameList);
+        model.put("lessonTime", new String());
+        model.put("lessonTimeArray", lessonTimeNameList);
+        model.put("weekDayName", new String());
+        model.put("weekDayArray", weekdayNameList);
+        return model;
+    }
+
+//    private HashMap getFormParametrName(String modelColumnName, String groupsName){
+//        Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject(modelColumnName, groupsName));
+//
+////        model.cast(Factory.getInstance().getGenericRepositoryInterface(model).getObject(modelColumnName,columnValue));
+//
+//        HashMap<String, Object> model = new HashMap<>();
+//        List<Groups> groupsList = Factory.getInstance().getGenericRepositoryInterface(Groups.class).getAllObjects();
+////        List<T> modelList = Factory.getInstance().getGenericRepositoryInterface(model).getAllObjects();
+//        for(Groups groupsLists : groupsList ){
+//
+//            if(groupsLists.getGroupsId().equals(groups.getGroupsId())){
+//            }
+//            else {
+//                groupsList.remove(groupsLists.getGroupsId());
+//            }
+//
+//        }
+//
+//        model.put("formOfTrainingName", new String());
+//        model.put("formOfTrainingNameArray", groupsList);
+//        return  model;
+//    }
 
     @Override
     public void routes() {
-
-        get("/advice_form", (request, response) -> {
-            System.out.println("Выполняется /advice_form");
-            return new ModelAndView(new HashMap(), "/public/templates/form.vtl");
+        get("/schedule", (request, response) -> {
+            log.info("Starting /schedule");
+            return new ModelAndView(getSchedule(), "/public/schedule.html");
         }, new VelocityTemplateEngine());
-
-        get("/moveToCourse", (request, response) -> {
-            System.out.println("Выполняется /moveToCourse");
-            //  formCourseName(request.queryParams("formOfTrainingName"));
-            HashMap<String, Object> model = new HashMap<>();
-            return new ModelAndView(model, "/public/group.html");
-        }, new VelocityTemplateEngine());
-
-        get("/add", (request, response) -> {
-            System.out.println("Выполняется /advice_form");
-            HashMap<String, Object> model = new HashMap<>();
-//            Advice advice = new Advice(request.queryParams("text"), request.queryParams("category"));
-//            AdviceController adviceController = new AdviceController(advice);
-//            adviceController.addToDataBase();
-//            model.put("id", advice.getUsersId());
-//            model.put("category", advice.getCategory());
-//            model.put("text", advice.getText());
-//            model.put("rating", advice.getRating());
-//            return new ModelAndView(model, "/public/templates/last_advice.vtl");
-            return new ModelAndView(new HashMap(), "/public/templates/form.vtl");
-        }, new VelocityTemplateEngine());
-
-//        post("/addFormOfTraining",(request, response) -> {
-//            FormOfTraining formOfTraining = new FormOfTraining(request.queryParams(formOfTrainingColumn));
-//            Factory.getInstance().getGenericRepositoryInterface().addObject(formOfTraining);
-//        return new ModelAndView(formOfTrainingName(), "/public/group.html");
-//        }, new VelocityTemplateEngine());
-//
-//        post("/deleteFormOfTraining",(request, response) -> {
-//           FormOfTraining formOfTraining = FormOfTraining.class.cast(Factory.getInstance().getGenericRepositoryInterface(FormOfTraining.class).getObject(formOfTrainingColumn ,request.queryParams(formOfTrainingColumn)));
-//            Factory.getInstance().getGenericRepositoryInterface().removeObject(formOfTraining);
-//            return new ModelAndView(formOfTrainingName(), "/public/group.html");
-//        }, new VelocityTemplateEngine());
 
         get("/", (request, response) -> {
-            return new ModelAndView(new HashMap<>(), "/public/index.html");
+            log.info("Starting /");
+            return new ModelAndView(getGroupsName(), "/public/index.html");
         }, new VelocityTemplateEngine());
 
-        get("/group", (request, response) -> {
-            HashMap<String, Object> model = new HashMap<String, Object>();
-            List<Groups> groupsList = Factory.getInstance().getGroupsDAO().getAllGroups();
-            model.put("group", new Groups());
-            model.put("groupList", groupsList);
-            return new ModelAndView(model, "/public/group.html");
+        get("/index", (request, response) -> {
+            log.info("Starting /index");
+            return new ModelAndView(getGroupsName(), "/public/index.html");
         }, new VelocityTemplateEngine());
 
-        get("/teacher", (request, response) -> {
-            HashMap<String, Object> model = new HashMap<String, Object>();
-            List<Teacher> teachers = Factory.getInstance().getTeacherDAO().getAllTeachers();
-            model.put("teacher", new Teacher());
-            model.put("teacherList", teachers);
-            return new ModelAndView(model, "/public/teacher.html");
-        }, new VelocityTemplateEngine());
+        post("/api/addLessonTime", (request, response) -> {
+            log.info("Starting /api/addLessonTime");
+            try {
+                LessonTime lessonTime = new LessonTime(Double.parseDouble(request.queryParams("timeStart")), Double.parseDouble(request.queryParams("timeEnd")));
+                response.redirect("/schedule");
+                return Factory.getInstance().getGenericRepositoryInterface().addObject(lessonTime);
+            }catch (Exception e){
+                log.log(Level.SEVERE, "Exception: ", e);
+                return e;
+            }
+        });
 
-        get("/users", (request, response) -> {
-            HashMap<String, Object> model = new HashMap<String, Object>();
-            List<Users>  users = Factory.getInstance().getUsersDAO().getAllUsers();
-            model.put("user", new Users());
-            model.put("userList", users);
-            return new ModelAndView(model, "/public/users.html");
-        }, new VelocityTemplateEngine());
+        post("/api/addGroups", (request, response) -> {
+            log.info("Starting /api/addGroups");
+            String groupsName = request.queryParams(groupsColumn);
+            try {
+                Groups addGroups = new Groups(groupsName);
+                response.redirect("/index");
+                return Factory.getInstance().getGenericRepositoryInterface().addObject(addGroups);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "Exception: ", e);
+                return e;
+            }
+        });
 
-        get("/add_schedule", (request, response) -> {
-            return new ModelAndView(new HashMap<>(), "/public/add_schedule.html");
-        }, new VelocityTemplateEngine());
+        post("/api/deleteGroups", (request, response) -> {
+            log.info("Starting /api/deleteGroups");
+            String a =request.queryParams("name");
+            Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject(groupsColumn, a));
+            response.redirect("/index");
+            return Factory.getInstance().getGenericRepositoryInterface().removeObject(groups);
+        });
 
-        post("/find", (request, response) -> Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName", request.queryParams("groupsName")));
+        post("/api/setSchedule", (request, response) -> {
+            log.info("Starting /api/setSchedule");
+            Gson gson = new GsonBuilder().create();
+            String a = request.queryParams("name");
+            Schedule schedule = new Schedule();
+            try {
+                schedule = gson.fromJson(a, Schedule.class);
+                setSchedule(schedule);
+                return "";
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "Exception: ", e);
+                return e;
+            }
+        });
 
-        post("/users/registration", (request, response) -> {
+//        post("/find", (request, response) -> Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName", request.queryParams("groupsName")));
+
+
+        post("/api/users/registration", (request, response) -> {
+            log.info("Starting /api/users/registration");
             Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject(groupsColumn, request.queryParams(groupsColumn)));
             Users registration = new Users(request.queryParams("name"), groups, request.queryParams("login"), request.queryParams("password"), Boolean.parseBoolean(request.queryParams("student")));
             return Factory.getInstance().getUsersDAO().addUser(registration);
         });
 
-        post("/users/login", (request, response) -> {
-
+        post("/api/users/login", (request, response) -> {
+            log.info("Starting /api/users/login");
             Users login = new Users(request.queryParams("login"), request.queryParams("password"));
 
-            return Factory.getInstance().getUsersDAO().loginUsers(login);
+           return Factory.getInstance().getUsersDAO().loginUsers(login);
 //            UserController userController = new UserController(login);
 //            userController.setHashPassword();
 //            return userController.userLogin();
         });
+        //        get("/add", (request, response) -> {
+//            System.out.println("Выполняется /advice_form");
+//            HashMap<String, Object> model = new HashMap<>();
+////            Advice advice = new Advice(request.queryParams("text"), request.queryParams("category"));
+////            AdviceController adviceController = new AdviceController(advice);
+////            adviceController.addToDataBase();
+////            model.put("id", advice.getUsersId());
+////            model.put("category", advice.getCategory());
+////            model.put("text", advice.getText());
+////            model.put("rating", advice.getRating());
+////            return new ModelAndView(model, "/public/templates/last_advice.vtl");
+//            return new ModelAndView(new HashMap(), "/public/templates/form.vtl");
+//        }, new VelocityTemplateEngine());
+
+//        post("/addFormOfTraining",(request, response) -> {
+//            FormOfTraining formOfTraining = new FormOfTraining(request.queryParams(formOfTrainingColumn));
+//            Factory.getInstance().getGenericRepositoryInterface().addObject(formOfTraining);
+//        return new ModelAndView(formOfTrainingName(), "/public/index.html");
+//        }, new VelocityTemplateEngine());
+//
+//        post("/deleteFormOfTraining",(request, response) -> {
+//           FormOfTraining formOfTraining = FormOfTraining.class.cast(Factory.getInstance().getGenericRepositoryInterface(FormOfTraining.class).getObject(formOfTrainingColumn ,request.queryParams(formOfTrainingColumn)));
+//            Factory.getInstance().getGenericRepositoryInterface().removeObject(formOfTraining);
+//            return new ModelAndView(formOfTrainingName(), "/public/index.html");
+//        }, new VelocityTemplateEngine());
+        //        get("/advice_form", (request, response) -> {
+//            System.out.println("Выполняется /advice_form");
+//            return new ModelAndView(new HashMap(), "/public/templates/form.vtl");
+//        }, new VelocityTemplateEngine());
     }
 }
