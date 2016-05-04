@@ -8,10 +8,10 @@ public class Application {
     public static void main(String[] args){
 
         staticFileLocation("/public");
-        port(3132);
-//        int port;
-//        port = Integer.parseInt(args[0]);
-//        port(port);
+//        port(3132);
+        int port;
+        port = Integer.parseInt(args[0]);
+        port(port);
         new MobileRoutes();
         SiteRoutes siteRoutes = new SiteRoutes();
         siteRoutes.initRoutes();

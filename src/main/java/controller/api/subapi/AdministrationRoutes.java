@@ -52,23 +52,23 @@ public class AdministrationRoutes extends BaseController{
         }, new VelocityTemplateEngine());
 
         post(ROOT + "add_teacher", (request, response) -> {
-            response.redirect("/teacher");
+            response.redirect(ROOT + "teacher");
             return Factory.getInstance().getTeacherDAO().addTeacher(new Teacher(request.queryParams("teacher_name")));
         });
 
         post(ROOT + "delete_teacher", (request, response) -> {
-            response.redirect("/teacher");
+            response.redirect(ROOT + "teacher");
             return Factory.getInstance().getTeacherDAO().deleteTeacher(Factory.getInstance().getTeacherDAO().getTeacherByName(request.queryParams("teacher_name")));
         });
 
         post(ROOT + "add_group", (request, response) -> {
-            response.redirect("/group");
+            response.redirect(ROOT + "group");
             return Factory.getInstance().getGroupsDAO().addGroup(new Groups(request.queryParams("groups_name")));
         });
 
         post(ROOT + "delete_group", (request, response) -> {
             System.out.println("delete group");
-            response.redirect("/group");
+            response.redirect( ROOT + "group");
             return Factory.getInstance().getGroupsDAO().deleteGroup(Factory.getInstance().getGroupsDAO().getGroupByName(request.queryParams("groups_name")));
         });
     }
