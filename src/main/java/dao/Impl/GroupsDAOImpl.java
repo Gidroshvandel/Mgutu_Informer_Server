@@ -1,22 +1,37 @@
 package dao.Impl;
 
-import com.google.gson.Gson;
 import dao.Factory;
 import dao.GroupsDAO;
 import model.Groups;
-import utils.EMF;
 
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class GroupsDAOImpl {
+public class GroupsDAOImpl implements GroupsDAO{
+    @Override
+    public Boolean addGroup(Groups groups) throws SQLException {
+        return Factory.getInstance().getGenericRepositoryInterface().addObject(groups);
+    }
+
+    @Override
+    public void updateGroup(Groups groups) throws SQLException {
+
+    }
+
+    @Override
+    public Groups getGroupByName(String groupsName) throws SQLException {
+        return (Groups) Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName", groupsName);
+    }
+
+    @Override
+    public List getAllGroups() throws SQLException {
+        return Factory.getInstance().getGenericRepositoryInterface(Groups.class).getAllObjects();
+    }
+
+    @Override
+    public Boolean deleteGroup(Groups groups) throws SQLException {
+        return Factory.getInstance().getGenericRepositoryInterface().removeObject(groups);
+    }
 //    @Override
 //    public String addGroup(Groups groups) throws SQLException {
 //

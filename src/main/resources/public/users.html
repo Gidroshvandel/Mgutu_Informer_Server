@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    #include("/public/template/include_head.html")
+    <title>Пользователи</title>
+    <style>
+        .users {
+            padding-top: 48px;
+            padding-right: 48px;
+        }
+    </style>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
+    #include("public/template/include_navigation.html")
+    <main class="mdl-layout__content mdl-color--grey-100">
+        <div class="page-content">
+            <div class="mdl-grid">
+                <div class="mdl-cell--1-col users">
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric">ID</th>
+                            <th>Логин</th>
+                            <th>Имя</th>
+                            <!--<th>Пароль</th>-->
+                            <!--<th>Секретный ключ</th>-->
+                            <th>Студент?</th>
+                            <th>Группа</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #foreach($user in $userList)
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">$user.usersId</td>
+                            <td>$user.login</td>
+                            <td>$user.name</td>
+                            <!--<td>$user.password</td>-->
+                            <!--<td>$user.secretKey</td>-->
+                            <td>$user.student</td>
+                            <td>$user.groups.groupsName</td>
+                        </tr>
+                        #end
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

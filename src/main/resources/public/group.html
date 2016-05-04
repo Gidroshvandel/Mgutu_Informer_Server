@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    #include("/public/template/include_head.html")
+    <title>Группы</title>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
+    #include("public/template/include_navigation.html")
+    <main class="mdl-layout__content mdl-color--grey-100">
+        <div class="page-content">
+            <div class="mdl-grid">
+                <div class="mdl-cell--1-col">
+                    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric">Группа</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        #foreach($group in $groupList)
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <form action="/delete_group" accept-charset="UTF-8" method="POST">
+                                    <div class="mdl-textfield mdl-js-textfield">
+                                        <input class="mdl-textfield__input" type="text" name="groups_name"
+                                               value="$group.groupsName">
+                                    </div>
+                                    <input class="mdl-button mdl-js-button mdl-button--colored" type="submit"
+                                           value="delete">
+                                </form>
+                            </td>
+                        </tr>
+                        #end
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                <form action="/add_group" accept-charset="UTF-8" method="POST">
+                                    <div class="mdl-textfield mdl-js-textfield">
+                                        <input class="mdl-textfield__input" type="text" name="groups_name">
+                                        <label class="mdl-textfield__label">Добавить группу</label>
+                                    </div>
+                                    <input class="mdl-button mdl-js-button mdl-button--colored" type="submit"
+                                           value="ADD">
+                                </form>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

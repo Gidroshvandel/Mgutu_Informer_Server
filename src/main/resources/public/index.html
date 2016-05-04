@@ -1,66 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    #include("/public/template/include_head.html")
+    <title>Административная панель</title>
 </head>
 <body>
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="/dropdown.js"></script>   
-
-    
-
-
-<!--<h1 align="center">Hi people</h1>-->
-<!--<span id=1>Форма обучения</span>-->
-
-    
-    
-<!--
-<script language="JavaScript">
-
-function newPage()
-{
- value1=""+document.form1.userF.value;
- value2=""+document.form1.userI.value;
- value3=""+document.form1.userO.value;
- self.location="file1.html?="+value1+"="+value2+"="+value3;
-}
-//
-</script>
-</head>
-<body>
-<form name="form1">
-Фамилия&nbsp;<input type="text" name="userF">
-Имя&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="userI"><br>
-Отчество&nbsp;<input type="text" name="userO"><br>
-<input type="button" name="button" value="Подтвердить данные" onClick="newPage()">
-</form>
--->
-<table border="2">
-
-
-                #foreach($formOfTrainingName in $formOfTrainingNameArray)
-
-                <tr>
-                    <td><form action="/deleteGroups" accept-charset="UTF-8" method="POST">
-                        <textarea name="groupsName">$formOfTrainingName</textarea>
-                        <input type="submit" value="-">
-                    </form>
-                    </td>
-                </tr>
-                #end
-
-    <tr>
-        <td>
-            <form action="/addGroups" accept-charset="UTF-8" method="POST">
-                <input type="text" name="groupsName" placeholder="Добавить группу" value="">
-                <input type="submit" value="+">
-        </form>
-
-        </td>
-    </tr>
-    
-</table>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
+    #include("public/template/include_navigation.html")
+</div>
 </body>
 </html>

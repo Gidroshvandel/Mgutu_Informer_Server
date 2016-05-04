@@ -1,6 +1,7 @@
 package dao.Impl;
 
 import com.google.gson.Gson;
+import dao.Factory;
 import dao.UsersDAO;
 import model.Users;
 import utils.EMF;
@@ -122,7 +123,7 @@ public class UsersDAOImpl extends EMF implements UsersDAO  {
 
     @Override
     public List getAllUsers() throws SQLException {
-        return null;
+        return Factory.getInstance().getGenericRepositoryInterface(Users.class).getAllObjects();
     }
 
     @Override
