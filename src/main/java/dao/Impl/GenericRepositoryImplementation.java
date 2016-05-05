@@ -128,11 +128,12 @@ public class GenericRepositoryImplementation<T> implements GenericRepositoryInte
             CriteriaQuery<T> criteria = builder.createQuery(type);
             Root<T> u = criteria.from(type);
             criteria.select(u);
+            List<Predicate> prList = new ArrayList<>();
             for(Map.Entry<String,Object> map1: map.entrySet())
             {
-                criteria.where(builder.equal(u.get(map1.getKey()), map1.getValue()));
+               prList.add(builder.equal(u.get(map1.getKey()), map1.getValue()));
             }
-
+            criteria.where(builder.and(prList.toArray(new Predicate[prList.size()])));
             TypedQuery<T> query = entityManager.createQuery(criteria);
             return query.getSingleResult();
         } catch (NoResultException noResult) {

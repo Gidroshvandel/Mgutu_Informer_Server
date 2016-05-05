@@ -43,11 +43,12 @@ public class ScheduleSite {
                     }
 
                     Map<String,Object> map = new HashMap<>();
+                    map.put("groups",schedule.getGroups().getGroupsId());
                     map.put("weekday",schedule.getWeekday());
                     map.put("numberWeekday",schedule.getNumberWeekday());
                     map.put("lessonTime",schedule.getLessonTime().getLessonTimeId());
 
-                    if( Factory.getInstance().getGenericRepositoryInterface(model.Schedule.class).getObject(map) == null){
+                    if(Schedule.class.cast(Factory.getInstance().getGenericRepositoryInterface(model.Schedule.class).getObject(map))  == null){
                         Factory.getInstance().getGenericRepositoryInterface().addObject(schedule);
                     }
 
