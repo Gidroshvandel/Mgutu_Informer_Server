@@ -59,6 +59,9 @@ public class ScheduleSite {
                     if(Schedule.class.cast(Factory.getInstance().getGenericRepositoryInterface(model.Schedule.class).getObject(map))  == null){
                         Factory.getInstance().getGenericRepositoryInterface().addObject(schedule);
                     }
+                    else{
+                        Factory.getInstance().getGenericRepositoryInterface().editObject(schedule);
+                    }
 
                 }
             }
