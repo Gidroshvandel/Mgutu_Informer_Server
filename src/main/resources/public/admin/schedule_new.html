@@ -20,7 +20,7 @@
                    <!-- Standard Select -->
       <div class="mdl-selectfield page-content">
         <label>Standard Select</label>
-        <select id="NumderWeekDayId" class="browser-default">
+        <select onchange="onClick_()" id="NumderWeekDayId" class="browser-default">
 <!--          <option value="" disabled selected>Выберете неделю</option>-->
           <option value="1">Первая неделя</option>
           <option value="2">Вторая неделя</option>
@@ -101,7 +101,7 @@
     
     <table>
         #foreach($model in $modelList)
-            <tr>
+            <tr class="rowModelClass">
                 <td>$model.weekDay</td>
                 <td>$model.lessonTime</td>
                 <td>$model.lectureHall</td>
@@ -117,4 +117,6 @@
     <script src="/js/cookie.js"></script>
     <script src="/js/title_from_cookie.js"></script>
     <script src="js/schedule_controller.js"></script>
+    <script src="js/defaultValueSchedule.js"></script>
+    <script src="js/numberWeekEvent.js"></script>
 </html>

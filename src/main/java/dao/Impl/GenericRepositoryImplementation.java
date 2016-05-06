@@ -124,7 +124,6 @@ public class GenericRepositoryImplementation<T> implements GenericRepositoryInte
         }
     }
 
-
     @Override
     public T getObject(String columnName, Object columnValue) {
         entityManager = EMF.getEm();
