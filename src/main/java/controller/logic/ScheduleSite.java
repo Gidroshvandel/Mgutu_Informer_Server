@@ -56,11 +56,14 @@ public class ScheduleSite {
                     map.put("numberWeekday",schedule.getNumberWeekday());
                     map.put("lessonTime",schedule.getLessonTime().getLessonTimeId());
 
-                    if(Schedule.class.cast(Factory.getInstance().getGenericRepositoryInterface(model.Schedule.class).getObject(map))  == null){
+                    Schedule scheduleOld = (Schedule)(Factory.getInstance().getGenericRepositoryInterface(model.Schedule.class).getObject(map));
+
+                    if(scheduleOld == null){
                         Factory.getInstance().getGenericRepositoryInterface().addObject(schedule);
                     }
                     else{
-                        Factory.getInstance().getGenericRepositoryInterface().editObject(schedule);
+                        schedule.setScheduleId(scheduleOld.getScheduleId());
+                        Factory.getInstance().getGenericRepositoryInterface(Schedule.class).editObject(schedule);
                     }
 
                 }
@@ -98,17 +101,12 @@ public class ScheduleSite {
     }
 
     private static List<Query> setQuery(String groupsName, String numberWeekday){
-        if(numberWeekday == null)
-        {
-            numberWeekday = NumberWeekday.first.toString();
-        }
-        if(numberWeekday.equals("1"))
-        {
-            numberWeekday = NumberWeekday.first.toString();
-        }
         if(numberWeekday.equals("2"))
         {
             numberWeekday = NumberWeekday.second.toString();
+        }
+        else {
+            numberWeekday = NumberWeekday.first.toString();
         }
 
         Map<String,Object> map = new HashMap<>();

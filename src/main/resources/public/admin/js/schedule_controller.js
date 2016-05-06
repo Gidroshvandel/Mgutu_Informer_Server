@@ -38,6 +38,7 @@ function setSchedule() {
         var leaderStr = JSON.stringify(res);
         console.log(leaderStr);
         post(leaderStr,"/admin/api/schedule.post");
+//        get(groupName,numberWeekDay,"/admin/schedule");
 };
 
 function respounse(groupName, weekDay) {

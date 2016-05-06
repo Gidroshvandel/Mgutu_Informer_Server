@@ -1,4 +1,7 @@
 (function () {
+    if(getCookie("numberWeekDay") != null){
+         document.getElementById("NumderWeekDayId").value = getCookie("numberWeekDay");
+    }
     var 
 //        groupName = getCookie("nameCookie"),
 //        numberWeekDay = document.getElementById("NumderWeekDayId").value,
