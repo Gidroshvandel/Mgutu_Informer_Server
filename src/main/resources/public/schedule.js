@@ -1,6 +1,6 @@
 (function () {
 //    console.log(getCookie("name"));
-    document.getElementById("groupName").appendChild(document.createTextNode(getCookie("name")));
+//    document.getElementById("groupName").appendChild(document.createTextNode(getCookie("name")));
 }());
 
 function setSchedule() {
@@ -38,7 +38,7 @@ function setSchedule() {
             res = new respounse(groupName, weekArr);
             var leaderStr = JSON.stringify(res);
             console.log(leaderStr);
-            post(leaderStr,"/api/schedule.set");
+            post(leaderStr,"/api/schedule.put");
 //  var in1 = new input("101","Nikitin","Math");
 //    var in2 = new input("1012","Nikitin2","Math2");
 //    var les = new lessonTime("12",[in1.input,in2.input])

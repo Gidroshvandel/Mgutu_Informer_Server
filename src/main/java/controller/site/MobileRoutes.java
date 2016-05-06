@@ -1,4 +1,4 @@
-package controller.api;
+package controller.site;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,7 +16,7 @@ public class MobileRoutes extends BaseRoutes {
     @Override
     public void routes() {
         get("/string", (request, response) -> "Hello world");
-        get("/api/schedule.get", (request, response) -> {
+        get("/site/schedule.get", (request, response) -> {
             Gson gson = new GsonBuilder()
                     .setPrettyPrinting()
                     .create();

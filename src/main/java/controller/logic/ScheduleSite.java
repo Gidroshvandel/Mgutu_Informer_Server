@@ -2,6 +2,7 @@ package controller.logic;
 
 import dao.Factory;
 import model.*;
+import model.site.Query;
 import utils.Converter;
 
 import java.util.*;
@@ -18,15 +19,22 @@ public class ScheduleSite {
                 String employmentType = scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getScheduleElements().getEmploymentType();
                 String lectureHall = scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getScheduleElements().getLectureHall();
                 String teacher = scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getScheduleElements().getTeacher();
+                String numberWeekDay = scheduleJsonModel.getWeekDay().get(i).getNumberWeekDay();
 
-                if(!discipline.equals("")&&!employmentType.equals("")&&!lectureHall.equals("")&&!teacher.equals("")){
+                if(!discipline.equals("")&&!employmentType.equals("")&&!lectureHall.equals("")&&!teacher.equals("")&&!numberWeekDay.equals("")){
                     model.Schedule schedule = new model.Schedule();
                     schedule.setGroups(groups);
                     schedule.setWeekday(weekday);
                     String lessonTimeStart = Converter.startToDouble(scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getTime()).toString();
                     LessonTime lessonTime = LessonTime.class.cast(Factory.getInstance().getGenericRepositoryInterface(LessonTime.class).getObject("lessonTimeStart",lessonTimeStart));
                     schedule.setLessonTime(lessonTime);
-                    schedule.setNumberWeekday(NumberWeekday.first);
+
+                    if(!numberWeekDay.equals("")) {
+                        if(numberWeekDay.equals("1"))
+                            schedule.setNumberWeekday(NumberWeekday.first);
+                        if(numberWeekDay.equals("2"))
+                            schedule.setNumberWeekday(NumberWeekday.second);
+                    }
 
                     if (!discipline.equals("")) {
                         schedule.setDiscipline(setScheduleElement("disciplineName", discipline, new Discipline(discipline), Discipline.class));
@@ -59,11 +67,11 @@ public class ScheduleSite {
 
 
 
-    public static HashMap getSchedule() {
+    public static HashMap getSchedule(String groupsName, String numberWeekday) {
         HashMap<String, Object> model = new HashMap<>();
         List<Weekday> weekdayNameList = Arrays.asList(Weekday.values());
 
-        List<String> lessonTimeNameList = lessonTimeTransform(Factory.getInstance().getGenericRepositoryInterface(LessonTime.class).getAllObjects());
+        List<String> lessonTimeNameList = LessonTimeController.lessonTimeTransform(Factory.getInstance().getGenericRepositoryInterface(LessonTime.class).getAllObjects());
 
         List<LectureHall> lectureHallList = Factory.getInstance().getGenericRepositoryInterface(LectureHall.class).getAllObjects();
         List<Teacher> teacherList = Factory.getInstance().getGenericRepositoryInterface(Teacher.class).getAllObjects();
@@ -81,29 +89,42 @@ public class ScheduleSite {
         model.put("lessonTimeArray", lessonTimeNameList);
         model.put("weekDayName", new String());
         model.put("weekDayArray", weekdayNameList);
+        model.put("model", new String());
+        model.put("modelList",setQuery(groupsName,numberWeekday));
         return model;
     }
 
-    private static List<String> lessonTimeTransform(List<LessonTime>  lessonTimeList){
-        List<String> lessonTimeNameList = new ArrayList<>();
-        List<Double> lessonTimeStartList = new ArrayList<>();
-        List<Double> lessonTimeEndList = new ArrayList<>();
-        for (LessonTime Lists : lessonTimeList) {
-
-            lessonTimeStartList.add(Lists.getLessonTimeStart());
-
+    private static List<Query> setQuery(String groupsName, String numberWeekday){
+        if(numberWeekday == null)
+        {
+            numberWeekday = NumberWeekday.first.toString();
         }
-        for (LessonTime Lists : lessonTimeList) {
-
-            lessonTimeEndList.add(Lists.getLessonTimeEnd());
-
+        if(numberWeekday.equals("1"))
+        {
+            numberWeekday = NumberWeekday.first.toString();
         }
-        Collections.sort(lessonTimeStartList);
-        Collections.sort(lessonTimeEndList);
-        for (int i = 0; i < lessonTimeEndList.size(); i++) {
-            lessonTimeNameList.add(Converter.toString(lessonTimeStartList.get(i), lessonTimeEndList.get(i)));
+        if(numberWeekday.equals("2"))
+        {
+            numberWeekday = NumberWeekday.second.toString();
         }
-        return lessonTimeNameList;
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("groups",Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName",groupsName));
+        map.put("numberWeekday",NumberWeekday.valueOf(numberWeekday));
+        List<Schedule> scheduleList = Factory.getInstance().getGenericRepositoryInterface(Schedule.class).getObjects(map);
+        List<Query> queryList = new ArrayList<>();
+        for (Schedule scheduleList1: scheduleList){
+            queryList.add(new Query(scheduleList1.getWeekday().name(),
+                    Converter.toString(scheduleList1.getLessonTime().getLessonTimeStart(),scheduleList1.getLessonTime().getLessonTimeEnd()),
+                    scheduleList1.getLectureHall().getLectureHallName(),
+                    scheduleList1.getTeacher().getTeacherName(),
+                    scheduleList1.getDiscipline().getDisciplineName(),
+                    scheduleList1.getEmploymentType().getEmploymentTypeName()));
+        }
+
+        return queryList;
+
+
     }
 
     private static  <T> T setScheduleElement(String columnName, String columnValue, Object o, Class<T> tClass){

@@ -65,6 +65,32 @@ public class GenericRepositoryImplementation<T> implements GenericRepositoryInte
         }
     }
 
+    public List<T> getObjects(Map<String,Object> map) {
+        entityManager = EMF.getEm();
+        try {
+
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<T> criteria = builder.createQuery(type);
+            Root<T> u = criteria.from(type);
+            criteria.select(u);
+            List<Predicate> prList = new ArrayList<>();
+            for(Map.Entry<String,Object> map1: map.entrySet())
+            {
+                prList.add(builder.equal(u.get(map1.getKey()), map1.getValue()));
+            }
+            criteria.where(builder.and(prList.toArray(new Predicate[prList.size()])));
+            TypedQuery<T> query = entityManager.createQuery(criteria);
+            return query.getResultList();
+        } catch (NoResultException noResult) {
+            return null;
+        }catch (NonUniqueResultException nonUnique) {
+            return null;
+        }
+        finally {
+            entityManager.close();
+        }
+    }
+
     @Override
     public Boolean removeObject(Object emp) {
         entityManager = EMF.getEm();
@@ -100,7 +126,7 @@ public class GenericRepositoryImplementation<T> implements GenericRepositoryInte
 
 
     @Override
-    public T getObject(String columnName, String columnValue) {
+    public T getObject(String columnName, Object columnValue) {
         entityManager = EMF.getEm();
         try {
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();

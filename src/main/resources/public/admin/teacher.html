@@ -19,13 +19,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        #foreach($teacher in $teacherList)
+                        #foreach($Teacher in $TeacherList)
                         <tr>
                             <td class="mdl-data-table__cell--non-numeric">
-                                <form action="/admin/delete_teacher" accept-charset="UTF-8" method="POST">
+                                <form action="/admin/api/teacher.delete" accept-charset="UTF-8" method="POST">
                                     <div class="mdl-textfield mdl-js-textfield">
                                         <input class="mdl-textfield__input" type="text" name="teacher_name"
-                                               value="$teacher.teacherName">
+                                               value="$Teacher.teacherName">
                                     </div>
                                     <input class="mdl-button mdl-js-button mdl-button--colored" type="submit"
                                            value="delete">
@@ -35,7 +35,7 @@
                         #end
                         <tr>
                             <td class="mdl-data-table__cell--non-numeric">
-                                <form action="/admin/add_teacher" accept-charset="UTF-8" method="POST">
+                                <form action="/admin/api/teacher.post" accept-charset="UTF-8" method="POST">
                                     <div class="mdl-textfield mdl-js-textfield">
                                         <input class="mdl-textfield__input" type="text" name="teacher_name">
                                         <label class="mdl-textfield__label">Добавить преподавателя</label>

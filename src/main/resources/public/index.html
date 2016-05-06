@@ -14,7 +14,7 @@
                 #end
         <tr>
             <td>
-                <form action="/api/groups.add" accept-charset="UTF-8" method="POST">
+                <form action="/api/groups.post" accept-charset="UTF-8" method="POST">
                     <input type="text" name="groupsName" placeholder="Добавить группу" value="">
                     <input type="submit" value="+">
                 </form>
@@ -33,7 +33,7 @@ function post(msg,url) {
 
    var form = document.createElement("form");
     if(url === "/api/groups.delete"){
-        form.setAttribute("method", 'post');
+        form.setAttribute("method", 'delete');
         var input = document.createElement("input");
         input.setAttribute("type", "hidden");
         input.setAttribute("name", 'name');

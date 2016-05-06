@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../mdl/material.min.css">
+    <link rel="stylesheet" href="/style/style.css">
+    <link rel="stylesheet" href="css/select.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script defer src="../mdl/material.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Добавить расписание</title>
+</head>
+<body>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
+    #include("public/template/include_navigation.html")
+    <main class="mdl-layout__content mdl-color--grey-100">
+        <div class="container">
+                   <!-- Standard Select -->
+      <div class="mdl-selectfield page-content">
+        <label>Standard Select</label>
+        <select id="NumderWeekDayId" class="browser-default">
+<!--          <option value="" disabled selected>Выберете неделю</option>-->
+          <option value="1">Первая неделя</option>
+          <option value="2">Вторая неделя</option>
+        </select>
+      </div>
+        #foreach($weekDayName in $weekDayArray)
+        <div class="page-content">
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col mdl-grid">
+                    <div class="mdl-cell">
+                        <div class="mdl-card mdl-shadow--2dp">
+                            <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
+                                <h2 class="weekDayClassName mdl-card__title-text">$weekDayName</h2>
+                            </div>
+                            #foreach($lessonTime in $lessonTimeArray)
+                            <div class="mdl-cell mdl-cell--12-col mdl-grid">
+                            <div class="mdl-grid mdl-cell--12-col mdl-cell--bottom">
+                                <div class="mdl-card mdl-shadow--2dp">
+                                    <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
+                                        <h2 class="lessonTimeClass mdl-card__title-text">$lessonTime</h2>
+                                    </div>
+                                    <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                                        <form action="#">
+                                            <div class="mdl-textfield mdl-js-textfield">
+                                                <label class="mdl-textfield__label">Аудитория</label>
+                                                <input  class="lectureHallClass mdl-textfield__input" type="text" list="lectureHall$weekDayName$lessonTime" value="San Diego">
+                                                <datalist id="lectureHall$weekDayName$lessonTime">
+                                                #foreach($lectureHall in $lectureHallList)
+                                                  <option>$lectureHall.lectureHallName</option>
+                                                #end
+                                                </datalist>
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield">
+                                                <label class="mdl-textfield__label">Преподаватель</label>
+                                                <input class="teacherClass mdl-textfield__input" type="text" list="teacher$weekDayName$lessonTime">
+                                                <datalist id="teacher$weekDayName$lessonTime">
+                                                #foreach($teacher in $teacherList)
+                                                  <option>$teacher.teacherName</option>
+                                                #end
+                                                </datalist >
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield">
+                                                <label class="mdl-textfield__label">Предмет</label>
+                                                <input class="disciplineClass mdl-textfield__input" type="text" list="discipline$weekDayName$lessonTime">
+                                                <datalist id="discipline$weekDayName$lessonTime">
+                                                #foreach($discipline in $disciplineList)
+                                                  <option>$discipline.disciplineName</option>
+                                                #end
+                                                </datalist>
+                                            </div>
+                                            <div class="mdl-textfield mdl-js-textfield">
+                                                <label class="mdl-textfield__label">Тип предмета</label>
+                                                <input class="employmentTypeClass mdl-textfield__input" type="text" list="employmentType$weekDayName$lessonTime">
+                                                <datalist id="employmentType$weekDayName$lessonTime">
+                                                #foreach($employmentType in $employmentTypeList)
+                                                  <option>$employmentType.employmentTypeName</option>
+                                                #end
+                                                </datalist>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            #end
+                            <input onclick="setSchedule()" class="mdl-button mdl-button--colored" type="submit">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        #end
+            <div>
+    </div>
+            </div>
+    </main>
+</div>
+    
+    <table>
+        #foreach($model in $modelList)
+            <tr>
+                <td>$model.weekDay</td>
+                <td>$model.lessonTime</td>
+                <td>$model.lectureHall</td>
+                <td>$model.teacher</td>
+                <td>$model.discipline</td>
+                <td>$model.employmentType</td>
+            </tr>
+        #end
+        </table>
+    
+</body>
+    <script src="../js/post.js"></script>
+    <script src="/js/cookie.js"></script>
+    <script src="/js/title_from_cookie.js"></script>
+    <script src="js/schedule_controller.js"></script>
+</html>

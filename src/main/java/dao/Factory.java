@@ -24,20 +24,6 @@ public class Factory {
         return usersDAO;
     }
 
-    public TeacherDAO getTeacherDAO(){
-        if (teacherDAO == null){
-            teacherDAO = new TeacherDAOImpl();
-        }
-        return teacherDAO;
-    }
-
-    public GroupsDAO getGroupsDAO(){
-        if (groupsDAO == null){
-            groupsDAO = new GroupsDAOImpl();
-        }
-        return groupsDAO;
-    }
-
     public GenericRepositoryInterface  getGenericRepositoryInterface(){
         if (genericRepositoryInterface == null){
             genericRepositoryInterface = new GenericRepositoryImplementation<>();

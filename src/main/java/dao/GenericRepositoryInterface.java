@@ -9,6 +9,7 @@ public interface GenericRepositoryInterface<T> {
     Boolean removeObject(T emp);
     Boolean editObject(T emp);
     T getObject(Map<String,Object> map);
-    T getObject(String columnName, String columnValue);
+    T getObject(String columnName, Object columnValue);
     List<T> getAllObjects();
+    List<T> getObjects(Map<String,Object> map);
 }

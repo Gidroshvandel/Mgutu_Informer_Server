@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 
 import static spark.Spark.post;
 
-public class UsersRouts extends BaseRoutes {
-    private static Logger log = Logger.getLogger(UsersRouts.class.getName());
+public class UsersRoutes extends BaseRoutes {
+    private static Logger log = Logger.getLogger(UsersRoutes.class.getName());
 
     private final String ROOT = "/api/users/";
 

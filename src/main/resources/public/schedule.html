@@ -106,9 +106,14 @@
 function post(msg,url) {
     
    var form = document.createElement("form");
+//   if(url === "/api/lessonTime.post")
+//   {
     form.setAttribute("method", 'post');
+//    }
+//    if(url === "/api/schedule.put"){
+//    form.setAttribute("method", 'put');
+//    }
     form.setAttribute("action", url);
-
     var input = document.createElement("input");
     input.setAttribute("type", "hidden");
     input.setAttribute("name", 'name');

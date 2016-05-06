@@ -14,17 +14,17 @@
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                         <thead>
                         <tr>
-                            <th class="mdl-data-table__cell--non-numeric">Группа</th>
+                            <th class="mdl-data-table__cell--non-numeric">Предмет</th>
                         </tr>
                         </thead>
                         <tbody>
-                        #foreach($Groups in $GroupsList)
+                        #foreach($Discipline in $DisciplineList)
                         <tr>
                             <td class="mdl-data-table__cell--non-numeric">
-                                <form action="/admin/api/groups.delete" accept-charset="UTF-8" method="POST">
+                                <form action="/admin/api/discipline.delete" accept-charset="UTF-8" method="POST">
                                     <div class="mdl-textfield mdl-js-textfield">
-                                        <input class="mdl-textfield__input" type="text" name="groups_name"
-                                               value="$Groups.groupsName">
+                                        <input class="mdl-textfield__input" type="text" name="discipline_name"
+                                               value="$Discipline.disciplineName">
                                     </div>
                                     <input class="mdl-button mdl-js-button mdl-button--colored" type="submit"
                                            value="delete">
@@ -34,9 +34,9 @@
                         #end
                         <tr>
                             <td class="mdl-data-table__cell--non-numeric">
-                                <form action="/admin/api/groups.post" accept-charset="UTF-8" method="POST">
+                                <form action="/admin/api/discipline.post" accept-charset="UTF-8" method="POST">
                                     <div class="mdl-textfield mdl-js-textfield">
-                                        <input class="mdl-textfield__input" type="text" name="groups_name">
+                                        <input class="mdl-textfield__input" type="text" name="discipline_name">
                                         <label class="mdl-textfield__label">Добавить группу</label>
                                     </div>
                                     <input class="mdl-button mdl-js-button mdl-button--colored" type="submit"
