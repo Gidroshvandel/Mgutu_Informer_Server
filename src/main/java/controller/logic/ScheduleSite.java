@@ -101,7 +101,7 @@ public class ScheduleSite {
     }
 
     private static List<Query> setQuery(String groupsName, String numberWeekday){
-        if(numberWeekday.equals("2"))
+        if(numberWeekday!=null&&numberWeekday.equals("2"))
         {
             numberWeekday = NumberWeekday.second.toString();
         }
