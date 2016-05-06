@@ -24,7 +24,7 @@ public class AdministrationRoutes extends BaseRoutes {
         new DisciplineApi();
         new GroupsApi();
         new LectureHallApi();
-        new LessonTimeApi();
+        new lessonTimeApi();
         new ScheduleApi();
         new TeacherApi();
     }

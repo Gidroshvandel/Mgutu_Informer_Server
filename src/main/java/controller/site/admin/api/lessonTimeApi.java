@@ -10,8 +10,8 @@ import java.util.logging.Logger;
 
 import static spark.Spark.post;
 
-public class LessonTimeApi extends BaseRoutes {
-    private static Logger log = Logger.getLogger(LessonTimeApi.class.getName());
+public class lessonTimeApi extends BaseRoutes {
+    private static Logger log = Logger.getLogger(lessonTimeApi.class.getName());
 
     private final String ROOT = "/admin/api/";
 
