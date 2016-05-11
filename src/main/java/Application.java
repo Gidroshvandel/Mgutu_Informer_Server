@@ -1,6 +1,7 @@
 import controller.site.MobileRoutes;
 import controller.site.SiteRoutes;
 import controller.site.admin.AdministrationRoutes;
+import controller.site.users.UsersRoutes;
 
 import static spark.Spark.port;
 import static spark.Spark.staticFileLocation;
@@ -16,5 +17,6 @@ public class Application {
         new MobileRoutes();
         new SiteRoutes();
         new AdministrationRoutes();
+        new UsersRoutes();
     }
 }
