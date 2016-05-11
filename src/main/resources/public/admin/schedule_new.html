@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!--
+    <style>
+        .right{
+            
+              float: right;
+              clear: fight;
+              margin-bottom: XXem;
+            
+        }
+        .field {clear:both; text-align:right;}
+        .weekdayClass{
+            visibility: hidden;
+        }
+        
+    </style>
+-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -9,6 +25,10 @@
     <link rel="stylesheet" href="css/select.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script defer src="../mdl/material.min.js"></script>
+    <script src="../js/post.js"></script>
+    <script src="/js/cookie.js"></script>
+    <script src="js/delete.js"></script>
+<!--    <script src="js/scheduleVisibility.js"></script>-->
     <meta charset="UTF-8">
     <title>Добавить расписание</title>
 </head>
@@ -27,7 +47,7 @@
         </select>
       </div>
         #foreach($weekDayName in $weekDayArray)
-        <div class="page-content">
+        <div class="page-content weekdayClass">
             <div class="mdl-grid">
                 <div class="mdl-cell mdl-cell--12-col mdl-grid">
                     <div class="mdl-cell">
@@ -39,9 +59,18 @@
                             <div class="mdl-cell mdl-cell--12-col mdl-grid">
                             <div class="mdl-grid mdl-cell--12-col mdl-cell--bottom">
                                 <div class="mdl-card mdl-shadow--2dp">
-                                    <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
-                                        <h2 class="lessonTimeClass mdl-card__title-text">$lessonTime</h2>
-                                    </div>
+                                    <div class=" mdl-card__title mdl-card--expand mdl-color--teal-300">
+                                        <div class="">
+                                            <h2 class="lessonTimeClass mdl-card__title-text">$lessonTime</h2>
+                                        </div>                                    
+                                        <div class="">
+                                            <button onclick="deleteGarbage(this)" id="tt1$weekDayName|$lessonTime" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon material-icons">delete</button>
+                                            <div class="mdl-tooltip" for="tt1{$weekDayName}|{$lessonTime}">
+                                            Удалить
+                                            </div>
+                                        </div>
+                                        
+                                        </div>                                    
                                     <div class="mdl-card__supporting-text mdl-color-text--grey-600">
                                         <form action="#">
                                             <div class="mdl-textfield mdl-js-textfield">
@@ -111,12 +140,9 @@
             </tr>
         #end
         </table>
-    
-</body>
-    <script src="../js/post.js"></script>
-    <script src="/js/cookie.js"></script>
     <script src="/js/title_from_cookie.js"></script>
     <script src="js/schedule_controller.js"></script>
     <script src="js/defaultValueSchedule.js"></script>
     <script src="js/numberWeekEvent.js"></script>
+</body>
 </html>

@@ -29,12 +29,7 @@ public class ScheduleSite {
                     LessonTime lessonTime = LessonTime.class.cast(Factory.getInstance().getGenericRepositoryInterface(LessonTime.class).getObject("lessonTimeStart",lessonTimeStart));
                     schedule.setLessonTime(lessonTime);
 
-                    if(!numberWeekDay.equals("")) {
-                        if(numberWeekDay.equals("1"))
-                            schedule.setNumberWeekday(NumberWeekday.first);
-                        if(numberWeekDay.equals("2"))
-                            schedule.setNumberWeekday(NumberWeekday.second);
-                    }
+                    schedule.setNumberWeekday(convertNumberWeekDay(numberWeekDay));
 
                     if (!discipline.equals("")) {
                         schedule.setDiscipline(setScheduleElement("disciplineName", discipline, new Discipline(discipline), Discipline.class));
@@ -72,6 +67,15 @@ public class ScheduleSite {
     }
 
 
+    public static NumberWeekday convertNumberWeekDay(String numberWeekDay){
+        if(numberWeekDay!=null&&numberWeekDay.equals("2"))
+        {
+            return NumberWeekday.second;
+        }
+        else {
+            return NumberWeekday.first;
+        }
+    }
 
     public static HashMap getSchedule(String groupsName, String numberWeekday) {
         HashMap<String, Object> model = new HashMap<>();
@@ -100,18 +104,12 @@ public class ScheduleSite {
         return model;
     }
 
-    private static List<Query> setQuery(String groupsName, String numberWeekday){
-        if(numberWeekday!=null&&numberWeekday.equals("2"))
-        {
-            numberWeekday = NumberWeekday.second.toString();
-        }
-        else {
-            numberWeekday = NumberWeekday.first.toString();
-        }
+    private static List<Query> setQuery(String groupsName, String numberWeekDay){
+
 
         Map<String,Object> map = new HashMap<>();
         map.put("groups",Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName",groupsName));
-        map.put("numberWeekday",NumberWeekday.valueOf(numberWeekday));
+        map.put("numberWeekday",convertNumberWeekDay(numberWeekDay));
         List<Schedule> scheduleList = Factory.getInstance().getGenericRepositoryInterface(Schedule.class).getObjects(map);
         List<Query> queryList = new ArrayList<>();
         for (Schedule scheduleList1: scheduleList){
