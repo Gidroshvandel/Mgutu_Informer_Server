@@ -1,4 +1,4 @@
-package controller.api.users;
+package controller.site.users;
 
 import controller.BaseRoutes;
 import dao.Factory;
