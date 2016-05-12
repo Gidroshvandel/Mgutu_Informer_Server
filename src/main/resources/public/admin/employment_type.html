@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     #include("/public/template/include_head.html")
-    <title>Время занятия</title>
+    <title>Тип предмета</title>
 </head>
 <body>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
@@ -14,17 +14,17 @@
                     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                         <thead>
                         <tr>
-                            <th class="mdl-data-table__cell--non-numeric">Время занятия</th>
+                            <th class="mdl-data-table__cell--non-numeric">Тип предмета</th>
                         </tr>
                         </thead>
                         <tbody>
-                        #foreach($LessonTime in $LessonTimeList)
+                        #foreach($EmploymentType in $EmploymentTypeList)
                         <tr>
                             <td class="mdl-data-table__cell--non-numeric">
-                                <form action="/admin/api/lessonTime.delete" accept-charset="UTF-8" method="POST">
+                                <form action="/admin/api/employmentType.delete" accept-charset="UTF-8" method="POST">
                                     <div class="mdl-textfield mdl-js-textfield">
-                                        <input class="mdl-textfield__input" type="text" name="time"
-                                               value="$LessonTime">
+                                        <input class="mdl-textfield__input" type="text" name="employmentType_name"
+                                               value="$EmploymentType.employmentTypeName">
                                     </div>
                                     <input class="mdl-button mdl-js-button mdl-button--colored" type="submit"
                                            value="delete">
@@ -34,10 +34,10 @@
                         #end
                         <tr>
                             <td class="mdl-data-table__cell--non-numeric">
-                                <form action="/admin/api/lessonTime.post" accept-charset="UTF-8" method="POST">
+                                <form action="/admin/api/employmentType.post" accept-charset="UTF-8" method="POST">
                                     <div class="mdl-textfield mdl-js-textfield">
-                                        <input class="mdl-textfield__input" type="text" name="time">
-                                        <label class="mdl-textfield__label">Добавить время занятий</label>
+                                        <input class="mdl-textfield__input" type="text" name="employmentType_name">
+                                        <label class="mdl-textfield__label">Добавить тип предмета</label>
                                     </div>
                                     <input class="mdl-button mdl-js-button mdl-button--colored" type="submit"
                                            value="ADD">

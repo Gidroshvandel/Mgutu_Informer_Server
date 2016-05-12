@@ -1,6 +1,7 @@
 (function () {
     var groupsNameArr = document.getElementsByClassName("groupsNameClass");
     deleteCookie("numberWeekDay");
+    deleteCookie("visibility");    
     console.log(groupsNameArr[0].textContent);
     for (var index = 0; index < groupsNameArr.length; ++index) {
         var container = groupsNameArr[index];

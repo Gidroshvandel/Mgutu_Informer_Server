@@ -1,9 +1,10 @@
-function onClick_ () {
-    if(document.getElementById("NumderWeekDayId").value==1){
-       setCookie("numberWeekDay",document.getElementById("NumderWeekDayId").value)
+function onClick_ (obj) {
+    deleteCookie("visibility");
+    if(obj.value==1){
+       setCookie("numberWeekDay",obj.value)
        }
-    if(document.getElementById("NumderWeekDayId").value==2){
-        setCookie("numberWeekDay",document.getElementById("NumderWeekDayId").value)
+    if(obj.value==2){
+        setCookie("numberWeekDay",obj.value)
     }
-    get(getCookie("nameCookie"),document.getElementById("NumderWeekDayId").value,"/admin/schedule");
+    get(getCookie("nameCookie"),obj.value,"/admin/schedule");
 }

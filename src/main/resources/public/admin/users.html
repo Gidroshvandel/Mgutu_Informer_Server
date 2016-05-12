@@ -30,15 +30,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        #foreach($user in $userList)
+                        #foreach($Users in $UsersList)
                         <tr>
-                            <td class="mdl-data-table__cell--non-numeric">$user.usersId</td>
-                            <td>$user.login</td>
-                            <td>$user.name</td>
+                            <td class="mdl-data-table__cell--non-numeric">$Users.usersId</td>
+                            <td>$Users.login</td>
+                            <td>$Users.name</td>
                             <!--<td>$user.password</td>-->
                             <!--<td>$user.secretKey</td>-->
-                            <td>$user.student</td>
-                            <td>$user.groups.groupsName</td>
+                            <td>$Users.student</td>
+                            <td>$Users.groups.groupsName</td>
                         </tr>
                         #end
                         </tbody>

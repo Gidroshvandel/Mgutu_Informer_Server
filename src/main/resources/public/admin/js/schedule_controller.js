@@ -7,7 +7,7 @@ function setSchedule() {
         teacher = document.getElementsByClassName("teacherClass"),
         discipline = document.getElementsByClassName("disciplineClass"),
         employmentType = document.getElementsByClassName("employmentTypeClass"),
-        numberWeekDay = document.getElementById("NumderWeekDayId").value,
+        numberWeekDay = getCookie("numberWeekDay"),
         
 //        numberWeekDay = e.options[e.selectedIndex].value,
         weekArr = [],
