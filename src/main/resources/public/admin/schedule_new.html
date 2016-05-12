@@ -14,21 +14,23 @@
     <script src="../js/post.js"></script>
     <script src="/js/cookie.js"></script>
     <script src="js/delete.js"></script>
+    <script src="js/editVisibility.js"></script>
     
      
-    <!--<style>-->
-        <!--.right{-->
+    <style>
+        .right{
 
-              <!--float: right;-->
-              <!--clear: fight;-->
-              <!--margin-bottom: XXem;-->
+              float: right;
+              clear: fight;
+              margin-bottom: XXem;
 
-        <!--}-->
-        <!--.field {clear:both; text-align:right;}-->
-        <!--.weekdayClass{-->
-            <!--visibility: hidden;-->
-        <!--}-->
-    <!--</style>-->
+        }
+        .field {clear:both; text-align:right;}
+        .weekdayClass{
+            visibility: hidden;
+            display: none;
+        }
+    </style>
     <meta charset="UTF-8">
     <title>Добавить расписание</title>
 </head>
@@ -47,7 +49,7 @@
                     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
                         for="demo-menu-lower-right">
                     #foreach($weekDayName in $weekDayArray)
-                      <li class="mdl-menu__item">$weekDayName</li>
+                      <li onclick="editVisibility(this)" class="mdl-menu__item">$weekDayName</li>
                     #end
                     </ul>
                     <span >День недели</span>
@@ -169,6 +171,6 @@
     <script src="js/schedule_controller.js"></script>
     <script src="js/defaultValueSchedule.js"></script>
     <script src="js/numberWeekEvent.js"></script>
-    <!--<script src="js/scheduleVisibility.js"></script>-->
+    <script src="js/scheduleVisibility.js"></script>
 </body>
 </html>

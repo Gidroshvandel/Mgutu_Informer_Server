@@ -1,4 +1,5 @@
 function onClick_ (obj) {
+    deleteCookie("visibility");
     if(obj.value==1){
        setCookie("numberWeekDay",obj.value)
        }
