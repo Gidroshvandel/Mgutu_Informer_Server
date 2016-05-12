@@ -27,6 +27,7 @@ public class AdministrationRoutes extends BaseRoutes {
         new LessonTimeApi();
         new ScheduleApi();
         new TeacherApi();
+        new EmploymentTypeApi();
     }
 
     @Override
@@ -69,6 +70,10 @@ public class AdministrationRoutes extends BaseRoutes {
 
         get(ROOT + "lectureHall", (request, response) -> {
             return new ModelAndView(Api.getHashMapObjects(LectureHall.class), "/public/admin/lectureHall.html");
+        }, new VelocityTemplateEngine());
+
+        get(ROOT + "employmentType", (request, response) -> {
+            return new ModelAndView(Api.getHashMapObjects(EmploymentType.class), "/public/admin/employment_type.html");
         }, new VelocityTemplateEngine());
 
         get(ROOT + "time", (request, response) -> {
