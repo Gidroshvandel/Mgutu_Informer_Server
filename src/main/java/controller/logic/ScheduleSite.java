@@ -8,11 +8,22 @@ import utils.Converter;
 import java.util.*;
 
 public class ScheduleSite {
+
+    public static Weekday getWeekdayByName(String name){
+        Weekday weekday = null;
+        for (Weekday weekdayf : Weekday.values()){
+            if(weekdayf.getName().equals(name)){
+                weekday = weekdayf;
+            }
+        }
+        return weekday;
+    }
+
     public static void setSchedule(model.json.Schedule scheduleJsonModel) {
         Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName", scheduleJsonModel.getGroupName()));
 
         for(int i = 0; i< scheduleJsonModel.getWeekDay().size();i++) {
-            Weekday weekday = Weekday.valueOf(scheduleJsonModel.getWeekDay().get(i).getWeekDayName());
+            Weekday weekday = getWeekdayByName(scheduleJsonModel.getWeekDay().get(i).getWeekDayName());
             for (int j = 0; j < scheduleJsonModel.getWeekDay().get(i).getLessonTime().size(); j++) {
 
                 String discipline = scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getScheduleElements().getDiscipline();
@@ -113,7 +124,7 @@ public class ScheduleSite {
         List<Schedule> scheduleList = Factory.getInstance().getGenericRepositoryInterface(Schedule.class).getObjects(map);
         List<Query> queryList = new ArrayList<>();
         for (Schedule scheduleList1: scheduleList){
-            queryList.add(new Query(scheduleList1.getWeekday().name(),
+            queryList.add(new Query(scheduleList1.getWeekday().getName(),
                     Converter.toString(scheduleList1.getLessonTime().getLessonTimeStart(),scheduleList1.getLessonTime().getLessonTimeEnd()),
                     scheduleList1.getLectureHall().getLectureHallName(),
                     scheduleList1.getTeacher().getTeacherName(),
