@@ -17,7 +17,6 @@ public class GroupsApi extends BaseRoutes {
     @Override
     public void routes() {
         post(ROOT+"groups.post", (request, response) -> {
-            log.info("Starting /site/addGroups");
             String groupsName = request.queryParams("groups_name");
             try {
                 Groups addGroups = new Groups(groupsName);
@@ -30,11 +29,15 @@ public class GroupsApi extends BaseRoutes {
         });
 
         post(ROOT+"groups.delete", (request, response) -> {
-            log.info("Starting /site/deleteGroups");
             String a = request.queryParams("groups_name");
-            response.redirect(ROOT.substring(0,7) + "groups?type=edit");
-            Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName", a));
-            return Factory.getInstance().getGenericRepositoryInterface().removeObject(groups);
+            try {
+                response.redirect(ROOT.substring(0,7) + "groups?type=edit");
+                Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName", a));
+                return Factory.getInstance().getGenericRepositoryInterface().removeObject(groups);
+            }catch (Exception e){
+                log.log(Level.SEVERE, "Exception: ", e);
+                return e;
+            }
         });
     }
 }

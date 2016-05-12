@@ -37,7 +37,6 @@ public class ScheduleApi extends BaseRoutes {
     @Override
     public void routes() {
         post(ROOT+"schedule.post", (request, response) -> {
-            log.info("Starting /site/setSchedule");
             Gson gson = new GsonBuilder().create();
             String a = request.queryParams("name");
             Map<String,String> cookies = request.cookies();
@@ -53,19 +52,23 @@ public class ScheduleApi extends BaseRoutes {
             }
         });
         post(ROOT+"schedule.delete", (request, response) -> {
-            log.info("Starting /site/deleteSchedule");
             String a = request.queryParams("name");
             String[] b = a.split("\\|");
             Map<String,String> cookies = request.cookies();
             Map<String,Object> map = new HashMap<>();
-            String result = java.net.URLDecoder.decode(cookies.get("nameCookie"), "UTF-8");
-            map.put("groups",Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName",result));
-            map.put("numberWeekday", convertNumberWeekDay(cookies.get("numberWeekDay")));
-            map.put("weekday", Weekday.valueOf((b[0])));
-            map.put("lessonTime", Factory.getInstance().getGenericRepositoryInterface(LessonTime.class).getObject("lessonTimeStart", Converter.startToDouble(b[1])));
-            response.redirect(ROOT.substring(0,7) + "schedule?name="+cookies.get("nameCookie")+"&numberWeekDay="+ cookies.get("numberWeekDay"));
-            model.Schedule schedule = model.Schedule.class.cast(Factory.getInstance().getGenericRepositoryInterface(model.Schedule.class).getObject(map));
-            return Factory.getInstance().getGenericRepositoryInterface().removeObject(schedule);
+            try {
+                String result = java.net.URLDecoder.decode(cookies.get("nameCookie"), "UTF-8");
+                map.put("groups",Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName",result));
+                map.put("numberWeekday", convertNumberWeekDay(cookies.get("numberWeekDay")));
+                map.put("weekday", Weekday.valueOf((b[0])));
+                map.put("lessonTime", Factory.getInstance().getGenericRepositoryInterface(LessonTime.class).getObject("lessonTimeStart", Converter.startToDouble(b[1])));
+                response.redirect(ROOT.substring(0,7) + "schedule?name="+cookies.get("nameCookie")+"&numberWeekDay="+ cookies.get("numberWeekDay"));
+                model.Schedule schedule = model.Schedule.class.cast(Factory.getInstance().getGenericRepositoryInterface(model.Schedule.class).getObject(map));
+                return Factory.getInstance().getGenericRepositoryInterface().removeObject(schedule);
+            }catch (Exception e){
+                log.log(Level.SEVERE, "Exception: ", e);
+                return e;
+            }
         });
     }
 }

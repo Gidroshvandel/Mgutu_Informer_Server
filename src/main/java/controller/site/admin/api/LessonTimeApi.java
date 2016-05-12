@@ -18,7 +18,6 @@ public class LessonTimeApi extends BaseRoutes {
     @Override
     public void routes() {
         post(ROOT+"lessonTime.post", (request, response) -> {
-            log.info("Starting /site/addLessonTime");
             try {
                 String time = request.queryParams("time");
                 LessonTime lessonTime = new LessonTime(Converter.startToDouble(time), Converter.endToDouble(time));
@@ -31,9 +30,14 @@ public class LessonTimeApi extends BaseRoutes {
         });
 
         post(ROOT + "lessonTime.delete", (request, response) -> {
-            response.redirect(ROOT.substring(0,7) + "time");
-            return Factory.getInstance().getGenericRepositoryInterface().removeObject(
-                    Factory.getInstance().getGenericRepositoryInterface(LessonTime.class).getObject("lessonTimeStart",Converter.startToDouble(request.queryParams("time"))));
+            try {
+                response.redirect(ROOT.substring(0,7) + "time");
+                return Factory.getInstance().getGenericRepositoryInterface().removeObject(
+                        Factory.getInstance().getGenericRepositoryInterface(LessonTime.class).getObject("lessonTimeStart",Converter.startToDouble(request.queryParams("time"))));
+            }catch (Exception e){
+                log.log(Level.SEVERE, "Exception: ", e);
+                return e;
+            }
         });
     }
 }
