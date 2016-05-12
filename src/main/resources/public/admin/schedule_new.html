@@ -1,53 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!--
-    <style>
-        .right{
-            
-              float: right;
-              clear: fight;
-              margin-bottom: XXem;
-            
-        }
-        .field {clear:both; text-align:right;}
-        .weekdayClass{
-            visibility: hidden;
-        }
-        
-    </style>
--->
+    
+    
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="../mdl/material.min.css">
     <link rel="stylesheet" href="/style/style.css">
-    <link rel="stylesheet" href="css/select.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script defer src="../mdl/material.min.js"></script>
     <script src="../js/post.js"></script>
     <script src="/js/cookie.js"></script>
     <script src="js/delete.js"></script>
-<!--    <script src="js/scheduleVisibility.js"></script>-->
+    
+     
+    <!--<style>-->
+        <!--.right{-->
+            <!---->
+              <!--float: right;-->
+              <!--clear: fight;-->
+              <!--margin-bottom: XXem;-->
+            <!---->
+        <!--}-->
+        <!--.field {clear:both; text-align:right;}-->
+        <!--.weekdayClass{-->
+            <!--visibility: hidden;-->
+        <!--}-->
+    <!--</style>-->
     <meta charset="UTF-8">
     <title>Добавить расписание</title>
 </head>
 <body>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
     #include("public/template/include_navigation.html")
+    
+<!--    <div class="mdl-layout mdl-js-layout">-->
+        <div class="mdl-layout__header mdl-color--blue-grey-100 mdl-color-text--grey-600">
+            <div class="mdl-layout-title">
+                <div align="left">
+                    <button id="demo-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
+                      <i class="material-icons">more_vert</i>
+                    </button>
+
+                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+                        for="demo-menu-lower-right">
+                    #foreach($weekDayName in $weekDayArray)
+                      <li class="mdl-menu__item">$weekDayName</li>
+                    #end
+                    </ul>
+                    <span >День недели</span>
+                </div>
+            
+                <div align="center">
+                    <span id="NumderWeekDayId">Первая неделя</span>
+                    <button id="demo-menu-lower-right2" class="mdl-button mdl-js-button mdl-button--icon">
+                      <i class="material-icons">more_vert</i>
+                    </button>
+                    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+                        for="demo-menu-lower-right2">
+                      <li onclick="onClick_(this)" class="mdl-menu__item" value="1">Первая неделя</li>
+                      <li onclick="onClick_(this)" class="mdl-menu__item" value="2">Вторая неделя</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+<!--    </div>-->
     <main class="mdl-layout__content mdl-color--grey-100">
-        <div class="container">
-                   <!-- Standard Select -->
-      <div class="mdl-selectfield page-content">
-        <label>Standard Select</label>
-        <select onchange="onClick_()" id="NumderWeekDayId" class="browser-default">
-<!--          <option value="" disabled selected>Выберете неделю</option>-->
-          <option value="1">Первая неделя</option>
-          <option value="2">Вторая неделя</option>
-        </select>
-      </div>
+
+        
         #foreach($weekDayName in $weekDayArray)
-        <div class="page-content weekdayClass">
+            <div class="weekdayClass">
+        <div class="page-content">
             <div class="mdl-grid">
                 <div class="mdl-cell mdl-cell--12-col mdl-grid">
                     <div class="mdl-cell">
@@ -65,7 +90,7 @@
                                         </div>                                    
                                         <div class="">
                                             <button onclick="deleteGarbage(this)" id="tt1$weekDayName|$lessonTime" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon material-icons">delete</button>
-                                            <div class="mdl-tooltip" for="tt1{$weekDayName}|{$lessonTime}">
+                                            <div class="mdl-tooltip" for="tt1$weekDayName|$lessonTime">
                                             Удалить
                                             </div>
                                         </div>
@@ -121,10 +146,10 @@
                 </div>
             </div>
         </div>
+                </div>
         #end
             <div>
     </div>
-            </div>
     </main>
 </div>
     
@@ -144,5 +169,6 @@
     <script src="js/schedule_controller.js"></script>
     <script src="js/defaultValueSchedule.js"></script>
     <script src="js/numberWeekEvent.js"></script>
+    <!--<script src="js/scheduleVisibility.js"></script>-->
 </body>
 </html>

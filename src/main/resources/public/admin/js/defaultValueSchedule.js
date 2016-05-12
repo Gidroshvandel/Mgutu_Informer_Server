@@ -1,6 +1,12 @@
 (function () {
     if(getCookie("numberWeekDay") != null){
-         document.getElementById("NumderWeekDayId").value = getCookie("numberWeekDay");
+         document.getElementById("NumderWeekDayId").innerHTML = '';
+        if(getCookie("numberWeekDay")==1){
+            document.getElementById("NumderWeekDayId").appendChild(document.createTextNode("Первая неделя"));
+        }
+        else{
+            document.getElementById("NumderWeekDayId").appendChild(document.createTextNode("Вторая неделя"));
+        }         
     }
     var 
 //        groupName = getCookie("nameCookie"),

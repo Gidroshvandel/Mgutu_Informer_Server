@@ -21,7 +21,7 @@ public class ScheduleSite {
                 String teacher = scheduleJsonModel.getWeekDay().get(i).getLessonTime().get(j).getScheduleElements().getTeacher();
                 String numberWeekDay = scheduleJsonModel.getWeekDay().get(i).getNumberWeekDay();
 
-                if(!discipline.equals("")&&!employmentType.equals("")&&!lectureHall.equals("")&&!teacher.equals("")&&!numberWeekDay.equals("")){
+                if(!discipline.equals("")&&!employmentType.equals("")&&!lectureHall.equals("")&&!teacher.equals("")){
                     model.Schedule schedule = new model.Schedule();
                     schedule.setGroups(groups);
                     schedule.setWeekday(weekday);
