@@ -16,21 +16,6 @@
     <script src="js/delete.js"></script>
     <script src="js/editVisibility.js"></script>
     
-     
-    <style>
-        .right{
-
-              float: right;
-              clear: fight;
-              margin-bottom: XXem;
-
-        }
-        .field {clear:both; text-align:right;}
-        .weekdayClass{
-            visibility: hidden;
-            display: none;
-        }
-    </style>
     <meta charset="UTF-8">
     <title>Добавить расписание</title>
 </head>
@@ -49,7 +34,7 @@
                     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
                         for="demo-menu-lower-right">
                     #foreach($weekDayName in $weekDayArray)
-                      <li onclick="editVisibility(this)" class="mdl-menu__item">$weekDayName</li>
+                      <li onclick="editVisibility(this)" class="mdl-menu__item">$weekDayName.name</li>
                     #end
                     </ul>
                     <span >День недели</span>
@@ -80,7 +65,7 @@
                     <div class="mdl-cell">
                         <div class="mdl-card mdl-shadow--2dp">
                             <div class="mdl-card__title mdl-card--expand mdl-color--teal-300">
-                                <h2 class="weekDayClassName mdl-card__title-text">$weekDayName</h2>
+                                <h2 class="weekDayClassName mdl-card__title-text">$weekDayName.name</h2>
                             </div>
                             #foreach($lessonTime in $lessonTimeArray)
                             <div class="mdl-cell mdl-cell--12-col mdl-grid">
