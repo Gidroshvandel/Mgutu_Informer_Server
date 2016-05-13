@@ -34,17 +34,25 @@ public class AdministrationRoutes extends BaseRoutes {
     public void routes() {
         initRoutes();
 
+        before("/admin/*", (request, response) -> {
+            if(request.session().attribute("username") == null) {
+                response.redirect("/authorization");
+            }else{
+                if(!request.session().attribute("username").equals("admin")){
+                    response.redirect("/authorization");
+                }
+            }
+        });
+
         get(ROOT, (request, response) -> {
            return new ModelAndView(new HashMap<>(), "/public/admin/index.html");
         }, new VelocityTemplateEngine());
 
         get(ROOT+"schedule", (request, response) -> {
-            log.info("Starting /schedule");
             return new ModelAndView(ScheduleSite.getSchedule(request.queryParams("name"),request.queryParams("numberWeekDay")), "/public/admin/schedule_new.html");
         }, new VelocityTemplateEngine());
 
         get(ROOT + "groups", (request, response) -> {
-            log.info("Starting /groups.list");
             String query = request.queryParams("type");
             if(query.equals("list")){
                 return new ModelAndView(Api.getHashMapObjects(Groups.class), "/public/admin/groups_list.html");

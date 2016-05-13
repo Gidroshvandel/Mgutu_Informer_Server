@@ -1,4 +1,4 @@
-package controller.site.users;
+package controller.mobile.api.users;
 
 import controller.BaseRoutes;
 import dao.Factory;
@@ -13,14 +13,25 @@ import static spark.Spark.post;
 public class UsersRoutes extends BaseRoutes {
     private static Logger log = Logger.getLogger(UsersRoutes.class.getName());
 
-    private final String ROOT = "/api/users/";
+        private final String ROOT = "/api/users/";
 
     public void routes() {
         post(ROOT+"registration", (request, response) -> {
             try {
+                Boolean student =  Boolean.parseBoolean(request.queryParams("student"));
                 Groups groups = Groups.class.cast(Factory.getInstance().getGenericRepositoryInterface(Groups.class).getObject("groupsName", request.queryParams("groupsName")));
-                Users registration = new Users(request.queryParams("name"), groups, request.queryParams("login"), request.queryParams("password"), Boolean.parseBoolean(request.queryParams("student")));
-                return Factory.getInstance().getUsersDAO().addUser(registration);
+                if(student = true && groups != null) {
+                    Users registration = new Users(request.queryParams("name"), groups, request.queryParams("login"), request.queryParams("password"), student);
+                    return Factory.getInstance().getUsersDAO().addUser(registration);
+                }else {
+                    if (student = false && groups == null) {
+                        Users registration = new Users(request.queryParams("name"), groups, request.queryParams("login"), request.queryParams("password"), student);
+                        return Factory.getInstance().getUsersDAO().addUser(registration);
+                    }
+                    else {
+                        return null;
+                    }
+                }
             }catch (Exception e){
                 log.log(Level.SEVERE, "Exception: ", e);
                 return e;
